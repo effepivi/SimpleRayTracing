@@ -1,0 +1,184 @@
+/**
+ ********************************************************************************
+ *
+ *   @file       Image.cxx
+ *
+ *   @brief      Class to manage 2D RGB images.
+ *
+ *   @version    1.0
+ *
+ *   @date       06/10/2020
+ *
+ *   @author     Dr Franck P. Vidal
+ *
+ ********************************************************************************
+ */
+
+
+//******************************************************************************
+//  Include
+//******************************************************************************
+#include <iostream>
+#include <cmath>
+#include <cstring>
+#include <cstdlib>
+#include <stdio.h>
+#include <jerror.h>
+#include <jpeglib.h>
+
+#include "Image.h"
+
+
+//----------------------------------------------------------
+Image::Image(const Image& anImage):
+//----------------------------------------------------------
+        m_p_pixel_data(0),
+        m_width(anImage.m_width),
+        m_height(anImage.m_height)
+//----------------------------------------------------------
+{
+    // The image size is set and there is some data to copy
+    if (m_width && m_height && anImage.m_p_pixel_data)
+    {
+        // Allocate memory
+        m_p_pixel_data = new unsigned char[3 * m_width * m_height];
+
+        // Copy the data
+        memcpy(m_p_pixel_data, anImage.m_p_pixel_data, sizeof(unsigned char) * 3 * m_width * m_height);
+    }
+}
+
+
+//-------------------------------------------
+Image& Image::operator=(const Image& anImage)
+//-------------------------------------------
+{
+    // Release the memory
+    destroy();
+
+    // The image size is set and there is some data to copy
+    if (m_width && m_height && anImage.m_p_pixel_data)
+    {
+        // Allocate memory
+        setSize(anImage.m_width, anImage.m_height);
+
+        // Copy the data
+        memcpy(m_p_pixel_data,
+                anImage.m_p_pixel_data,
+                sizeof(unsigned char) * 3 * anImage.m_width * anImage.m_height);
+    }
+
+    // Copy the image properties
+    m_width = anImage.m_width;
+    m_height = anImage.m_height;
+
+    // Return the current image
+    return (*this);
+}
+
+
+//---------------------------------------------
+void Image::loadJPEGFile(const char* aFileName)
+//---------------------------------------------
+{
+    // Allocate and initialize a JPEG decompression object
+    struct jpeg_decompress_struct cinfo;
+    struct jpeg_error_mgr jerr;
+    cinfo.err = jpeg_std_error(&jerr);
+    jpeg_create_decompress(&cinfo);
+
+    // Specify the source of the compressed data (eg, a file)
+    FILE* p_input_file(fopen(aFileName, "rb"));
+    if (!p_input_file)
+    {
+        std::string error_message;
+        error_message += "Cannot open file \"";
+        error_message += aFileName;
+        error_message += "\".";
+
+        throw error_message;
+    }
+    jpeg_stdio_src(&cinfo, p_input_file);
+
+    // Call jpeg_read_header() to obtain image info
+    if (!JPEG_HEADER_OK == jpeg_read_header(&cinfo, TRUE))
+    {
+        std::string error_message;
+        error_message += "Cannot read file \"";
+        error_message += aFileName;
+        error_message += "\".";
+
+        throw error_message;
+    }
+
+    // Set parameters for decompression
+/*    cinfo.dct_method = JDCT_IFAST;
+    cinfo.do_fancy_upsampling = FALSE;
+    cinfo.two_pass_quantize = FALSE;
+    cinfo.dither_mode = JDITHER_ORDERED;
+    cinfo.scale_num = 1;
+    cinfo.scale_denom = 8;
+    */
+    // Start decompression
+    jpeg_start_decompress(&cinfo);
+
+    // Save the size of the image
+    unsigned int width(cinfo.output_width);
+    unsigned int height(cinfo.output_height);
+    setSize(width, height);
+
+    // Decompress data
+    JSAMPROW row_pointer[1];        // pointer to a single row
+    int row_stride;                 // physical row width in buffer
+
+    if (cinfo.out_color_space == JCS_RGB)
+    {
+        row_stride = m_width * 3;   // JSAMPLEs per row in image_buffer
+    }
+    else if (cinfo.out_color_space == JCS_GRAYSCALE)
+    {
+        row_stride = m_width;   // JSAMPLEs per row in image_buffer
+    }
+    // Unknown colour space
+    else
+    {
+        std::cerr << "Unknown colour space" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    while (cinfo.output_scanline < cinfo.output_height)
+    {
+        row_pointer[0] = & m_p_pixel_data[cinfo.output_scanline * row_stride];
+        jpeg_read_scanlines(&cinfo, row_pointer, 1);
+    }
+
+    // Finish decompression
+    jpeg_finish_decompress(&cinfo);
+
+    // Release the JPEG decompression object
+    jpeg_destroy_decompress(&cinfo);
+}
+
+
+//------------------------------------------------------------
+void Image::setSize(unsigned int aWidth, unsigned int aHeight)
+//------------------------------------------------------------
+{
+    if (aWidth != getWidth() || aHeight != getHeight())
+    {
+        destroy();
+
+        m_width = aWidth;
+        m_height = aHeight;
+
+        if (m_width && m_height)
+        {
+            m_p_pixel_data = new unsigned char[3 * m_width * m_height];
+
+            for (unsigned int i(0); i < m_width * m_height; ++i)
+            {
+                m_p_pixel_data[i]  = 0;
+            }
+        }
+    }
+}
