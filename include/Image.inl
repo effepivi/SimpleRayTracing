@@ -50,10 +50,23 @@ inline Image::Image(const std::string& aFileName):
         m_p_pixel_data(0),
         m_width(0),
         m_height(0)
-//-----------------------------------------
+//------------------------------------------------
 {
     // Load a JPEG file
     loadJPEGFile(aFileName);
+}
+
+
+//----------------------------------------
+inline Image::Image(unsigned int aWidth,
+                    unsigned int aHeight):
+//----------------------------------------
+        m_p_pixel_data(0),
+        m_width(0),
+        m_height(0)
+//----------------------------------------
+{
+    setSize(aWidth, aHeight);
 }
 
 
@@ -91,6 +104,14 @@ inline void Image::loadJPEGFile(const std::string& aFileName)
 }
 
 
+//-----------------------------------------------------------
+inline void Image::saveJPEGFile(const std::string& aFileName)
+//-----------------------------------------------------------
+{
+    saveJPEGFile(aFileName.data());
+}
+
+
 //-----------------------------------------------------
 inline void Image::getSize(unsigned int& aWidth,
                            unsigned int& aHeight) const
@@ -105,7 +126,7 @@ inline void Image::getSize(unsigned int& aWidth,
 inline unsigned int Image::getWidth() const
 //-----------------------------------------
 {
-    return (m_width);
+    return m_width;
 }
 
 
@@ -113,7 +134,7 @@ inline unsigned int Image::getWidth() const
 inline unsigned int Image::getHeight() const
 //------------------------------------------
 {
-    return (m_height);
+    return m_height;
 }
 
 
@@ -122,4 +143,37 @@ inline unsigned char* Image::getData() const
 //------------------------------------------
 {
     return (m_p_pixel_data);
+}
+
+
+
+inline void Image::setPixel(unsigned int i,
+                            unsigned int j,
+                            unsigned char r,
+                            unsigned char g,
+                            unsigned char b)
+{
+    if (i < m_width && j < m_height)
+    {
+        unsigned int index = j * m_width * 3 + i * 3;
+        m_p_pixel_data[index] = r;
+        m_p_pixel_data[index + 1] = g;
+        m_p_pixel_data[index + 2] = b;
+    }
+}
+
+
+inline void Image::getPixel(unsigned int i,
+                            unsigned int j,
+                            unsigned char& r,
+                            unsigned char& g,
+                            unsigned char& b) const
+{
+    if (i < m_width && j < m_height)
+    {
+        unsigned int index = j * m_width * 3 + i * 3;
+        r = m_p_pixel_data[index];
+        g = m_p_pixel_data[index + 1];
+        b = m_p_pixel_data[index + 2];
+    }
 }

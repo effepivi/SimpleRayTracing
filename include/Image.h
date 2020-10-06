@@ -70,6 +70,16 @@ public:
 
 
     //--------------------------------------------------------------------------
+    /// Create a blank image
+    /*
+     *   @param aWidth   the image width (in number of pixels)
+     *   @param aHeight  the image height (in number of pixels)
+     */
+    //--------------------------------------------------------------------------
+    Image(unsigned int aWidth, unsigned int aHeight);
+
+    
+    //--------------------------------------------------------------------------
     /// Destructor
     //--------------------------------------------------------------------------
     ~Image();
@@ -109,32 +119,50 @@ public:
 
 
     //--------------------------------------------------------------------------
+    /// Save the current image into a JPEG file
+    /*
+     *   @param aFileName    the name of the JPEG file
+     */
+    //--------------------------------------------------------------------------
+    void saveJPEGFile(const char* aFileName);
+    
+    
+    //--------------------------------------------------------------------------
+    /// Save the current image into a JPEG file
+    /*
+     *   @param aFileName    the name of the JPEG file
+     */
+    //--------------------------------------------------------------------------
+    void saveJPEGFile(const std::string& aFileName);
+
+
+    //--------------------------------------------------------------------------
     /// Accessor on the image size (in number of pixels)
     /*
-    *   @param aWidth   the image width
-    *   @param aHeight   the image height
-    */
+     *   @param aWidth   the image width
+     *   @param aHeight   the image height
+     */
     //--------------------------------------------------------------------------
     void getSize(unsigned int& aWidth, unsigned int& aHeight) const;
-
-
+    
+    
     //--------------------------------------------------------------------------
     /// Accessor on the image width (in number of pixels)
     /*
-    *   @return the image width
-    */
+     *   @return   the image width
+     */
     //--------------------------------------------------------------------------
     unsigned int getWidth() const;
-
-
+    
+    
     //--------------------------------------------------------------------------
     /// Accessor on the image height (in number of pixels)
     /*
-    *   @return the image height
-    */
+     *   @return   the image height
+     */
     //--------------------------------------------------------------------------
     unsigned int getHeight() const;
-
+    
 
     //--------------------------------------------------------------------------
     /// Accessor on the raw pixel values
@@ -144,6 +172,19 @@ public:
     //--------------------------------------------------------------------------
     unsigned char* getData() const;
 
+
+    void setPixel(unsigned int i,
+                  unsigned int j,
+                  unsigned char r,
+                  unsigned char g,
+                  unsigned char b);
+
+    
+    void getPixel(unsigned int i,
+                  unsigned int j,
+                  unsigned char& r,
+                  unsigned char& g,
+                  unsigned char& b) const;
 
 //******************************************************************************
 protected:

@@ -160,6 +160,56 @@ void Image::loadJPEGFile(const char* aFileName)
 }
 
 
+
+//---------------------------------------------
+void Image::saveJPEGFile(const char* aFileName)
+//---------------------------------------------
+{
+    
+    // Allocate and initialize a JPEG compression object
+    struct jpeg_compress_struct cinfo;
+    struct jpeg_error_mgr jerr;
+    cinfo.err = jpeg_std_error(&jerr);
+    jpeg_create_compress(&cinfo);
+    
+    // Specify the destination for the compressed data (eg, a file)
+    FILE* p_output_file(fopen(aFileName, "wb"));
+    if (!p_output_file)
+    {
+        std::cerr << "Can't open " << aFileName << std::endl;
+        exit(1);
+    }
+    jpeg_stdio_dest(&cinfo, p_output_file);
+    
+    // Set parameters for compression, including image size & colorspace
+    cinfo.image_width  = m_width;   // image width in pixels
+    cinfo.image_height = m_height;  // image height in pixels
+    cinfo.input_components = 3;     // number of color components per pixel
+    cinfo.in_color_space = JCS_RGB; // colorspace of input image
+    jpeg_set_defaults(&cinfo);
+    
+    // Start compression
+    jpeg_start_compress(&cinfo, TRUE);
+    
+    // Compress data
+    JSAMPROW row_pointer[1];        // pointer to a single row
+    int row_stride;                 // physical row width in buffer
+    
+    row_stride = m_width * 3;   // JSAMPLEs per row in image_buffer
+    
+    while (cinfo.next_scanline < cinfo.image_height) {
+        row_pointer[0] = & m_p_pixel_data[cinfo.next_scanline * row_stride];
+        jpeg_write_scanlines(&cinfo, row_pointer, 1);
+    }
+    
+    // Finish compression
+    jpeg_finish_compress(&cinfo);
+    
+    // Release the JPEG compression object
+    jpeg_destroy_compress(&cinfo);
+}
+
+
 //------------------------------------------------------------
 void Image::setSize(unsigned int aWidth, unsigned int aHeight)
 //------------------------------------------------------------
