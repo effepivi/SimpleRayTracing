@@ -239,7 +239,7 @@ int main(int argc, char** argv)
 				0, 2, 3,
 		};
 		TriangleMesh background_mesh(vertices, indices, text_coords);
-		Image cloud_texture("Bangor_Logo_A1.jpg" /*"cloud2.jpg"*/);
+		Image cloud_texture(/*"Bangor_Logo_A1.jpg"*/ "cloud2.jpg");
 		background_mesh.setTexture(cloud_texture);
 
 
@@ -250,7 +250,6 @@ int main(int argc, char** argv)
 		// Process every row
 		std::vector<float> z_buffer(g_output_image.getWidth() * g_output_image.getHeight(), inf);
 
-#pragma omp parallel for collapse(2)
 		for (int row = 0; row < g_output_image.getHeight(); ++row)
 		{
 			// Process every column
