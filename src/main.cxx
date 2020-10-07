@@ -166,146 +166,167 @@ bool loadMesh(const std::string& aFileName)
 
 int main(int argc, char** argv)
 {
-	Material g_material(0.2 * g_red, g_green, g_blue, 1);
-
-	loadMesh("../dragon.ply");
-
-	// Get the scene's bbox
-	float inf = std::numeric_limits<float>::infinity();
-
-	Vec3 lower_bbox_corner( inf,  inf,  inf);
-	Vec3 upper_bbox_corner(-inf, -inf, -inf);
-
-	for (std::vector<TriangleMesh>::const_iterator ite = g_mesh_set.begin();
-			ite != g_mesh_set.end();
-			++ite)
+	try
 	{
-		Vec3 mesh_lower_bbox_corner = ite->getLowerBBoxCorner();
-		Vec3 mesh_upper_bbox_corner = ite->getUpperBBoxCorner();
+		Material g_material(0.2 * g_red, g_green, g_blue, 1);
 
-		lower_bbox_corner[0] = std::min(lower_bbox_corner[0], mesh_lower_bbox_corner[0]);
-		lower_bbox_corner[1] = std::min(lower_bbox_corner[1], mesh_lower_bbox_corner[1]);
-		lower_bbox_corner[2] = std::min(lower_bbox_corner[2], mesh_lower_bbox_corner[2]);
+		loadMesh("../dragon.ply");
 
-		upper_bbox_corner[0] = std::max(upper_bbox_corner[0], mesh_upper_bbox_corner[0]);
-		upper_bbox_corner[1] = std::max(upper_bbox_corner[1], mesh_upper_bbox_corner[1]);
-		upper_bbox_corner[2] = std::max(upper_bbox_corner[2], mesh_upper_bbox_corner[2]);
+		// Get the scene's bbox
+		float inf = std::numeric_limits<float>::infinity();
 
-	}
+		Vec3 lower_bbox_corner( inf,  inf,  inf);
+		Vec3 upper_bbox_corner(-inf, -inf, -inf);
 
-
-	g_mesh_set[0].setMaterial(g_material);
-
-	Vec3 range = upper_bbox_corner - lower_bbox_corner;
-	Vec3 bbox_centre = lower_bbox_corner + range / 2.0;
-
-	float diagonal = range.getLength();
-
-	Vec3 g_up(0.0, 0.0, -1.0);
-
-	Vec3 g_origin(bbox_centre - Vec3(diagonal * 1, 0, 0));
-	Vec3 g_detector_position(bbox_centre + Vec3(diagonal * 0.6, 0, 0));
-
-	Vec3 g_direction((g_detector_position - g_origin));
-	g_direction.normalize();
-
-	float res1 = range[2] / g_output_image.getWidth();
-	float res2 = range[1] / g_output_image.getHeight();
-	float g_pixel_spacing[] = {2 * std::max(res1, res2), 2 * std::max(res1, res2)};
-
-	Light g_light(g_white, g_direction, g_origin);
-
-	g_direction.normalise();
-	Vec3 right(g_direction.crossProduct(g_up));
-
-	std::vector<float> vertices = {
-			upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, lower_bbox_corner[2] - range[2] * 0.5f,
-			upper_bbox_corner[0] + range[0] * 0.1f, upper_bbox_corner[1] + range[1] * 0.5f, lower_bbox_corner[2] - range[2] * 0.5f,
-			upper_bbox_corner[0] + range[0] * 0.1f, upper_bbox_corner[1] + range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
-			upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
-	};
-
-	std::vector<unsigned int> indices = {
-			0, 1, 2,
-			0, 2, 3,
-	};
-	TriangleMesh background_mesh(vertices, indices);
-
-
-	g_mesh_set.push_back(background_mesh);
-
-
-
-	// Process every row
-	std::vector<float> z_buffer(g_output_image.getWidth() * g_output_image.getHeight(), inf);
-
-#pragma omp parallel for collapse(2)
-	for (int row = 0; row < g_output_image.getHeight(); ++row)
-	{
-		// Process every column
-		for (int col = 0; col < g_output_image.getWidth(); ++col)
+		for (std::vector<TriangleMesh>::const_iterator ite = g_mesh_set.begin();
+				ite != g_mesh_set.end();
+				++ite)
 		{
-			float v_offset = g_pixel_spacing[1] * (0.5 + row - g_output_image.getHeight() / 2.0);
-			float u_offset = g_pixel_spacing[0] * (0.5 + col - g_output_image.getWidth() / 2.0);
+			Vec3 mesh_lower_bbox_corner = ite->getLowerBBoxCorner();
+			Vec3 mesh_upper_bbox_corner = ite->getUpperBBoxCorner();
 
-			// Initialise the ray direction
-			Vec3 direction = g_detector_position + g_up * v_offset + right * u_offset - g_origin;
-			direction.normalise();
-			Ray ray(g_origin, direction);
+			lower_bbox_corner[0] = std::min(lower_bbox_corner[0], mesh_lower_bbox_corner[0]);
+			lower_bbox_corner[1] = std::min(lower_bbox_corner[1], mesh_lower_bbox_corner[1]);
+			lower_bbox_corner[2] = std::min(lower_bbox_corner[2], mesh_lower_bbox_corner[2]);
 
-			// Process every mesh
-			for (std::vector<TriangleMesh>::const_iterator mesh_ite = g_mesh_set.begin();
-					mesh_ite != g_mesh_set.end();
-					++mesh_ite)
+			upper_bbox_corner[0] = std::max(upper_bbox_corner[0], mesh_upper_bbox_corner[0]);
+			upper_bbox_corner[1] = std::max(upper_bbox_corner[1], mesh_upper_bbox_corner[1]);
+			upper_bbox_corner[2] = std::max(upper_bbox_corner[2], mesh_upper_bbox_corner[2]);
+
+		}
+
+
+		g_mesh_set[0].setMaterial(g_material);
+
+		Vec3 range = upper_bbox_corner - lower_bbox_corner;
+		Vec3 bbox_centre = lower_bbox_corner + range / 2.0;
+
+		float diagonal = range.getLength();
+
+		Vec3 g_up(0.0, 0.0, -1.0);
+
+		Vec3 g_origin(bbox_centre - Vec3(diagonal * 1, 0, 0));
+		Vec3 g_detector_position(bbox_centre + Vec3(diagonal * 0.6, 0, 0));
+
+		Vec3 g_direction((g_detector_position - g_origin));
+		g_direction.normalize();
+
+		float res1 = range[2] / g_output_image.getWidth();
+		float res2 = range[1] / g_output_image.getHeight();
+		float g_pixel_spacing[] = {2 * std::max(res1, res2), 2 * std::max(res1, res2)};
+
+		Light g_light(g_white, g_direction, g_origin);
+
+		g_direction.normalise();
+		Vec3 right(g_direction.crossProduct(g_up));
+
+		std::vector<float> vertices = {
+				upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, lower_bbox_corner[2] - range[2] * 0.5f,
+				upper_bbox_corner[0] + range[0] * 0.1f, upper_bbox_corner[1] + range[1] * 0.5f, lower_bbox_corner[2] - range[2] * 0.5f,
+				upper_bbox_corner[0] + range[0] * 0.1f, upper_bbox_corner[1] + range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
+				upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
+		};
+
+		std::vector<unsigned int> indices = {
+				0, 1, 2,
+				0, 2, 3,
+		};
+		TriangleMesh background_mesh(vertices, indices);
+		Image cloud_texture("cloud2.jpg");
+		background_mesh.setTexture(cloud_texture);
+
+
+		g_mesh_set.push_back(background_mesh);
+
+
+
+		// Process every row
+		std::vector<float> z_buffer(g_output_image.getWidth() * g_output_image.getHeight(), inf);
+
+	#pragma omp parallel for collapse(2)
+		for (int row = 0; row < g_output_image.getHeight(); ++row)
+		{
+			// Process every column
+			for (int col = 0; col < g_output_image.getWidth(); ++col)
 			{
-				Material material = mesh_ite->getMaterial();
+				float v_offset = g_pixel_spacing[1] * (0.5 + row - g_output_image.getHeight() / 2.0);
+				float u_offset = g_pixel_spacing[0] * (0.5 + col - g_output_image.getWidth() / 2.0);
 
-				// The ray intersect the mesh's bbox
-				if (mesh_ite->intersectBBox(ray))
+				// Initialise the ray direction
+				Vec3 direction = g_detector_position + g_up * v_offset + right * u_offset - g_origin;
+				direction.normalise();
+				Ray ray(g_origin, direction);
+
+				// Process every mesh
+				for (std::vector<TriangleMesh>::const_iterator mesh_ite = g_mesh_set.begin();
+						mesh_ite != g_mesh_set.end();
+						++mesh_ite)
 				{
-					// Process all the triangles of the mesh
-					for (unsigned int triangle_id = 0;
-							triangle_id < mesh_ite->getNumberOfTriangles();
-							++triangle_id)
+					Material material = mesh_ite->getMaterial();
+
+					// The ray intersect the mesh's bbox
+					if (mesh_ite->intersectBBox(ray))
 					{
-						float t;
-
-						const Triangle& triangle = mesh_ite->getTriangle(triangle_id);
-						bool intersect = ray.intersect(triangle, t);
-
-						if (intersect)
+						// Process all the triangles of the mesh
+						for (unsigned int triangle_id = 0;
+								triangle_id < mesh_ite->getNumberOfTriangles();
+								++triangle_id)
 						{
-							if (z_buffer[row * g_output_image.getWidth() + col] > t)
+							float t;
+
+							const Triangle& triangle = mesh_ite->getTriangle(triangle_id);
+							bool intersect = ray.intersect(triangle, t);
+
+							if (intersect)
 							{
-								z_buffer[row * g_output_image.getWidth() + col] = t;
-								Vec3 colour = getFragment(g_light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
+								if (z_buffer[row * g_output_image.getWidth() + col] > t)
+								{
+									z_buffer[row * g_output_image.getWidth() + col] = t;
+									Vec3 colour = getFragment(g_light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
 
-								unsigned char r, g, b;
+									unsigned char r, g, b;
 
-								if (255.0 * colour[0] < 0) r = 0;
-								else if (255.0 * colour[0] > 255) r = 255;
-								else r = int(255.0 * colour[0]);
+									if (255.0 * colour[0] < 0) r = 0;
+									else if (255.0 * colour[0] > 255) r = 255;
+									else r = int(255.0 * colour[0]);
 
-								if (255.0 * colour[1] < 0) g = 0;
-								else if (255.0 * colour[1] > 255) g = 255;
-								else g = int(255.0 * colour[1]);
+									if (255.0 * colour[1] < 0) g = 0;
+									else if (255.0 * colour[1] > 255) g = 255;
+									else g = int(255.0 * colour[1]);
 
-								if (255.0 * colour[2] < 0) b = 0;
-								else if (255.0 * colour[2] > 255) b = 255;
-								else b = int(255.0 * colour[2]);
+									if (255.0 * colour[2] < 0) b = 0;
+									else if (255.0 * colour[2] > 255) b = 255;
+									else b = int(255.0 * colour[2]);
 
-								g_output_image.setPixel(col, row, r, g, b);
+									g_output_image.setPixel(col, row, r, g, b);
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-	}
 
-	// Save the image
-	g_output_image.saveJPEGFile("test.jpg");
-	g_output_image.saveTGAFile("test.tga");
+		// Save the image
+		g_output_image.saveJPEGFile("test.jpg");
+		g_output_image.saveTGAFile("test.tga");
+
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "ERROR: " << e.what() << std::endl;
+		return 1;
+	}
+	catch (const std::string& e)
+	{
+		std::cerr << "ERROR: " << e << std::endl;
+		return 2;
+	}
+	catch (const char* e)
+	{
+		std::cerr << "ERROR: " << e << std::endl;
+		return 3;
+	}
 
 	return 0;
 }
