@@ -76,7 +76,11 @@ public:
      *   @param aHeight  the image height (in number of pixels)
      */
     //--------------------------------------------------------------------------
-    Image(unsigned int aWidth, unsigned int aHeight);
+    Image(unsigned int aWidth,
+    		unsigned int aHeight,
+    		unsigned char r = 0,
+			unsigned char g = 0,
+			unsigned char b = 0);
 
     
     //--------------------------------------------------------------------------
@@ -213,7 +217,10 @@ protected:
     *   @param aHeight  the image height (in number of pixels)
     */
     //--------------------------------------------------------------------------
-    void setSize(unsigned int aWidth, unsigned int aHeight);
+    void setSize(unsigned int aWidth, unsigned int aHeight,
+    		unsigned char r = 0,
+			unsigned char g = 0,
+			unsigned char b = 0);
 
 
     /// The pixel data

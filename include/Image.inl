@@ -59,14 +59,17 @@ inline Image::Image(const std::string& aFileName):
 
 //----------------------------------------
 inline Image::Image(unsigned int aWidth,
-                    unsigned int aHeight):
+                    unsigned int aHeight,
+                    unsigned char r,
+                    unsigned char g,
+                    unsigned char b):
 //----------------------------------------
         m_p_pixel_data(0),
         m_width(0),
         m_height(0)
 //----------------------------------------
 {
-    setSize(aWidth, aHeight);
+    setSize(aWidth, aHeight, r, g, b);
 }
 
 

@@ -45,7 +45,7 @@ const Vec3 g_blue(0, 0, 1);
 
 const Vec3 g_background_colour = g_black;
 
-Image g_output_image(128, 128);
+Image g_output_image(128, 128, 128, 128, 128);
 
 std::vector<TriangleMesh> g_mesh_set;
 
@@ -193,15 +193,15 @@ int main(int argc, char** argv)
 
 	}
 
+
 	g_mesh_set[0].setMaterial(g_material);
-	//cout << g_mesh_set[0] << endl;
 
 	Vec3 range = upper_bbox_corner - lower_bbox_corner;
 	Vec3 bbox_centre = lower_bbox_corner + range / 2.0;
 
 	float diagonal = range.getLength();
 
-	Vec3 g_up(0.0, 0.0, 1.0);
+	Vec3 g_up(0.0, 0.0, -1.0);
 
 	Vec3 g_origin(bbox_centre - Vec3(diagonal * 1, 0, 0));
 	Vec3 g_detector_position(bbox_centre + Vec3(diagonal * 0.6, 0, 0));
@@ -218,7 +218,27 @@ int main(int argc, char** argv)
 	g_direction.normalise();
 	Vec3 right(g_direction.crossProduct(g_up));
 
+	std::vector<float> vertices = {
+			upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, lower_bbox_corner[2] - range[2] * 0.5f,
+			upper_bbox_corner[0] + range[0] * 0.1f, upper_bbox_corner[1] + range[1] * 0.5f, lower_bbox_corner[2] - range[2] * 0.5f,
+			upper_bbox_corner[0] + range[0] * 0.1f, upper_bbox_corner[1] + range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
+			upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
+	};
+
+	std::vector<unsigned int> indices = {
+			0, 1, 2,
+			0, 2, 3,
+	};
+	TriangleMesh background_mesh(vertices, indices);
+
+
+	g_mesh_set.push_back(background_mesh);
+
+
+
 	// Process every row
+	std::vector<float> z_buffer(g_output_image.getWidth() * g_output_image.getHeight(), inf);
+
 #pragma omp parallel for collapse(2)
 	for (int row = 0; row < g_output_image.getHeight(); ++row)
 	{
@@ -232,10 +252,6 @@ int main(int argc, char** argv)
 			Vec3 direction = g_detector_position + g_up * v_offset + right * u_offset - g_origin;
 			direction.normalise();
 			Ray ray(g_origin, direction);
-
-			// Initialise the nearest intersection position and the fragment colour
-			float nearest_intersection = inf;
-			Vec3 colour = g_background_colour;
 
 			// Process every mesh
 			for (std::vector<TriangleMesh>::const_iterator mesh_ite = g_mesh_set.begin();
@@ -259,31 +275,31 @@ int main(int argc, char** argv)
 
 						if (intersect)
 						{
-							if (t < nearest_intersection)
+							if (z_buffer[row * g_output_image.getWidth() + col] > t)
 							{
-								colour = getFragment(g_light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
+								z_buffer[row * g_output_image.getWidth() + col] = t;
+								Vec3 colour = getFragment(g_light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
+
+								unsigned char r, g, b;
+
+								if (255.0 * colour[0] < 0) r = 0;
+								else if (255.0 * colour[0] > 255) r = 255;
+								else r = int(255.0 * colour[0]);
+
+								if (255.0 * colour[1] < 0) g = 0;
+								else if (255.0 * colour[1] > 255) g = 255;
+								else g = int(255.0 * colour[1]);
+
+								if (255.0 * colour[2] < 0) b = 0;
+								else if (255.0 * colour[2] > 255) b = 255;
+								else b = int(255.0 * colour[2]);
+
+								g_output_image.setPixel(col, row, r, g, b);
 							}
 						}
 					}
 				}
 			}
-
-			unsigned char r, g, b;
-
-			if (255.0 * colour[0] < 0) r = 0;
-			else if (255.0 * colour[0] > 255) r = 255;
-			else r = int(255.0 * colour[0]);
-
-			if (255.0 * colour[1] < 0) g = 0;
-			else if (255.0 * colour[1] > 255) g = 255;
-			else g = int(255.0 * colour[1]);
-
-			if (255.0 * colour[2] < 0) b = 0;
-			else if (255.0 * colour[2] > 255) b = 255;
-			else b = int(255.0 * colour[2]);
-
-			r = b = 0 ;
-			g_output_image.setPixel(col, row, r, g, b);
 		}
 	}
 

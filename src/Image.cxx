@@ -186,8 +186,15 @@ void Image::saveJPEGFile(const char* aFileName)
     cinfo.image_height = m_height;  // image height in pixels
     cinfo.input_components = 3;     // number of color components per pixel
     cinfo.in_color_space = JCS_RGB; // colorspace of input image
+
     jpeg_set_defaults(&cinfo);
-    
+
+
+    int quality = 100;
+    jpeg_set_quality(&cinfo, quality, TRUE /* limit to baseline-JPEG values */);//Set quality in cinfo
+   // jpeg_set_linear_quality(&cinfo, 1, TRUE);
+    cinfo.dct_method = JDCT_FLOAT;
+
     // Start compression
     jpeg_start_compress(&cinfo, TRUE);
     
@@ -242,17 +249,21 @@ void Image::saveTGAFile(const char* aFileName)
 
 	for (int row = 0; row < m_height; ++row)
 	{
-		for (int col = 0; col < m_width; ++col)
+        unsigned char* row_pointer = & m_p_pixel_data[m_width * (m_height - 1) * 3 - row * m_width * 3];
+
+        for (int col = 0; col < m_width; ++col)
 		{
-			fwrite(m_p_pixel_data + row * m_width * 3 + col * 3,
+        	unsigned char* pixel_pointer = row_pointer + col * 3;
+
+			fwrite(pixel_pointer,
 					sizeof(unsigned char), 1,
 					p_output_file);
 
-			fwrite(m_p_pixel_data + row * m_width * 3 + col * 3 + 2,
+			fwrite(pixel_pointer + 2,
 					sizeof(unsigned char), 1,
 					p_output_file);
 
-			fwrite(m_p_pixel_data + row * m_width * 3 + col * 3 + 1,
+			fwrite(pixel_pointer + 1,
 					sizeof(unsigned char), 1,
 					p_output_file);
 		}
@@ -261,9 +272,13 @@ void Image::saveTGAFile(const char* aFileName)
 }
 
 
-//------------------------------------------------------------
-void Image::setSize(unsigned int aWidth, unsigned int aHeight)
-//------------------------------------------------------------
+//---------------------------------------
+void Image::setSize(unsigned int aWidth,
+		            unsigned int aHeight,
+                    unsigned char r,
+                    unsigned char g,
+                    unsigned char b)
+//---------------------------------------
 {
     if (aWidth != getWidth() || aHeight != getHeight())
     {
@@ -278,7 +293,9 @@ void Image::setSize(unsigned int aWidth, unsigned int aHeight)
 
             for (unsigned int i(0); i < m_width * m_height; ++i)
             {
-                m_p_pixel_data[i]  = 0;
+                m_p_pixel_data[i * 3]     = r;
+                m_p_pixel_data[i * 3 + 1] = g;
+                m_p_pixel_data[i * 3 + 2] = b;
             }
         }
     }
