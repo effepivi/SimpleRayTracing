@@ -26,8 +26,9 @@
 #include <jerror.h>
 #include <jpeglib.h>
 
+#ifndef Image_h
 #include "Image.h"
-
+#endif
 
 //----------------------------------------------------------
 Image::Image(const Image& anImage):
