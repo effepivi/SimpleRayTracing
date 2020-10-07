@@ -153,6 +153,30 @@ inline const Material& TriangleMesh::getMaterial() const
 }
 
 
+//--------------------------------------------------------
+inline void TriangleMesh::setTexture(const Image& anImage)
+//--------------------------------------------------------
+{
+	m_texture = anImage;
+}
+
+
+//--------------------------------------------------
+inline const Image& TriangleMesh::getTexture() const
+//--------------------------------------------------
+{
+	return m_texture;
+}
+
+
+//--------------------------------------
+inline Image& TriangleMesh::getTexture()
+//--------------------------------------
+{
+	return m_texture;
+}
+
+
 //------------------------------------------------------
 inline size_t TriangleMesh::getNumberOfTriangles() const
 //------------------------------------------------------

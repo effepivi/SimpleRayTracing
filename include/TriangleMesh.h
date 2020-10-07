@@ -80,6 +80,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Ray.h"
 #endif
 
+#ifndef Image_h
+#include "Image.h"
+#endif
+
 
 //******************************************************************************
 //  Class declaration
@@ -117,6 +121,10 @@ public:
 	Material& getMaterial();
 	const Material& getMaterial() const;
 
+	void setTexture(const Image& anImage);
+	const Image& getTexture() const;
+	Image& getTexture();
+
 	size_t getNumberOfTriangles() const;
 	const Triangle& getTriangle(unsigned int i) const;
 
@@ -124,6 +132,7 @@ public:
 	const Vec3& getUpperBBoxCorner() const;
 
 	bool intersectBBox(const Ray& aRay) const;
+
 
 
 //******************************************************************************
@@ -135,6 +144,8 @@ protected:
 
 	Vec3 m_lower_bbox_corner;
 	Vec3 m_upper_bbox_corner;
+
+	Image m_texture;
 };
 
 
