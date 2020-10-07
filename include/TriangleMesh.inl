@@ -111,6 +111,25 @@ inline TriangleMesh::TriangleMesh(const std::vector<float>& aVertexSet,
 }
 
 
+//------------------------------------------------------------------------
+inline TriangleMesh::TriangleMesh(const std::vector<float>& aVertexSet,
+			                      const std::vector<float>& aTextCoordSet)
+//------------------------------------------------------------------------
+{
+	setGeometry(aVertexSet, aTextCoordSet);
+}
+
+
+//----------------------------------------------------------------------------
+inline TriangleMesh::TriangleMesh(const std::vector<float>& aVertexSet,
+		                          const std::vector<unsigned int>& anIndexSet,
+			                      const std::vector<float>& aTextCoordSet)
+//----------------------------------------------------------------------------
+{
+	setGeometry(aVertexSet, anIndexSet, aTextCoordSet);
+}
+
+
 //--------------------------------------------------------------------------
 inline TriangleMesh::TriangleMesh(const std::vector<Triangle>& aTriangleSet)
 //--------------------------------------------------------------------------

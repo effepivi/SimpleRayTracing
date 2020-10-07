@@ -45,7 +45,7 @@ const Vec3 g_blue(0, 0, 1);
 
 const Vec3 g_background_colour = g_black;
 
-Image g_output_image(128, 128, 128, 128, 128);
+Image g_output_image(2048, 2048, 128, 128, 128);
 
 std::vector<TriangleMesh> g_mesh_set;
 
@@ -227,12 +227,19 @@ int main(int argc, char** argv)
 				upper_bbox_corner[0] + range[0] * 0.1f, lower_bbox_corner[1] - range[1] * 0.5f, upper_bbox_corner[2] + range[2] * 0.5f,
 		};
 
+		std::vector<float> text_coords = {
+				0, 1, 0,
+				1, 1, 0,
+				1, 0, 0,
+				0, 0, 0,
+		};
+
 		std::vector<unsigned int> indices = {
 				0, 1, 2,
 				0, 2, 3,
 		};
-		TriangleMesh background_mesh(vertices, indices);
-		Image cloud_texture("cloud2.jpg");
+		TriangleMesh background_mesh(vertices, indices, text_coords);
+		Image cloud_texture("Bangor_Logo_A1.jpg" /*"cloud2.jpg"*/);
 		background_mesh.setTexture(cloud_texture);
 
 
@@ -243,7 +250,7 @@ int main(int argc, char** argv)
 		// Process every row
 		std::vector<float> z_buffer(g_output_image.getWidth() * g_output_image.getHeight(), inf);
 
-	#pragma omp parallel for collapse(2)
+#pragma omp parallel for collapse(2)
 		for (int row = 0; row < g_output_image.getHeight(); ++row)
 		{
 			// Process every column
@@ -286,18 +293,68 @@ int main(int argc, char** argv)
 
 									unsigned char r, g, b;
 
-									if (255.0 * colour[0] < 0) r = 0;
-									else if (255.0 * colour[0] > 255) r = 255;
-									else r = int(255.0 * colour[0]);
+									const Image& texture = mesh_ite->getTexture();
 
-									if (255.0 * colour[1] < 0) g = 0;
-									else if (255.0 * colour[1] > 255) g = 255;
-									else g = int(255.0 * colour[1]);
+									// Use texturing
+									if (texture.getWidth() * texture.getHeight())
+									{
+										Vec3 P = g_origin + t * direction;
 
-									if (255.0 * colour[2] < 0) b = 0;
-									else if (255.0 * colour[2] > 255) b = 255;
-									else b = int(255.0 * colour[2]);
+										// See https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/barycentric-coordinates
+										Vec3 A = triangle.getP1();
+										Vec3 B = triangle.getP2();
+										Vec3 C = triangle.getP3();
 
+										Triangle ABC(A, B, C);
+										Triangle ABP(A, B, P);
+										Triangle BCP(B, C, P);
+										Triangle CAP(C, A, P);
+
+										float area_ABC = ABC.getArea();
+										float u = CAP.getArea() / area_ABC;
+										float v = ABP.getArea() / area_ABC;
+										float w = BCP.getArea() / area_ABC;
+
+										Vec3 texel_coord(w * triangle.getTextCoord1() + u * triangle.getTextCoord2() + v * triangle.getTextCoord3());
+
+										unsigned char texel_r;
+										unsigned char texel_g;
+										unsigned char texel_b;
+
+										texture.getPixel(texel_coord[0] * (texture.getWidth() - 1),
+												texel_coord[1] * (texture.getHeight() - 1),
+												texel_r, texel_g, texel_b);
+
+										colour[0] *= texel_r;
+										colour[1] *= texel_g;
+										colour[2] *= texel_b;
+
+										if (colour[0] < 0) r = 0;
+										else if (colour[0] > 255) r = 255;
+										else r = int(colour[0]);
+
+										if (colour[1] < 0) g = 0;
+										else if (colour[1] > 255) g = 255;
+										else g = int(colour[1]);
+
+										if (colour[2] < 0) b = 0;
+										else if (colour[2] > 255) b = 255;
+										else b = int(colour[2]);
+									}
+									else
+									{
+										if (255.0 * colour[0] < 0) r = 0;
+										else if (255.0 * colour[0] > 255) r = 255;
+										else r = int(255.0 * colour[0]);
+
+										if (255.0 * colour[1] < 0) g = 0;
+										else if (255.0 * colour[1] > 255) g = 255;
+										else g = int(255.0 * colour[1]);
+
+										if (255.0 * colour[2] < 0) b = 0;
+										else if (255.0 * colour[2] > 255) b = 255;
+										else b = int(255.0 * colour[2]);
+									}
 									g_output_image.setPixel(col, row, r, g, b);
 								}
 							}

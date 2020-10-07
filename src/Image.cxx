@@ -58,7 +58,7 @@ Image& Image::operator=(const Image& anImage)
     destroy();
 
     // The image size is set and there is some data to copy
-    if (m_width && m_height && anImage.m_p_pixel_data)
+    if (anImage.m_width && anImage.m_height && anImage.m_p_pixel_data)
     {
         // Allocate memory
         setSize(anImage.m_width, anImage.m_height);

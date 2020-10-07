@@ -60,6 +60,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 //******************************************************************************
+//  Include
+//******************************************************************************
+#include <cmath>
+
+
+//******************************************************************************
 //  Method definitions
 //******************************************************************************
 
@@ -67,11 +73,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //---------------------------------------
 inline Triangle::Triangle(const Vec3& a,
 						  const Vec3& b,
-						  const Vec3& c):
+						  const Vec3& c,
+						  const Vec3& d,
+						  const Vec3& e,
+						  const Vec3& f):
 //---------------------------------------
         m_p1(a),
         m_p2(b),
-        m_p3(c)
+        m_p3(c),
+        m_text_coord1(d),
+        m_text_coord2(e),
+        m_text_coord3(f)
 //---------------------------------------
 {
     computeNormal();
@@ -85,7 +97,12 @@ inline Triangle& Triangle::operator=(const Triangle& aTriangle)
     m_p1 = aTriangle.m_p1;
     m_p2 = aTriangle.m_p2;
     m_p3 = aTriangle.m_p3;
+
     m_normal = aTriangle.m_normal;
+
+    m_text_coord1 = aTriangle.m_text_coord1;
+    m_text_coord2 = aTriangle.m_text_coord2;
+    m_text_coord3 = aTriangle.m_text_coord3;
 
     return *this;
 }
@@ -123,17 +140,29 @@ inline const Vec3& Triangle::getNormal() const
 }
 
 
-//--------------------------------------
-inline void Triangle::set(const Vec3& a,
-						  const Vec3& b,
-						  const Vec3& c)
-//--------------------------------------
+//----------------------------------------------
+inline void Triangle::setVertices(const Vec3& a,
+						          const Vec3& b,
+						          const Vec3& c)
+//----------------------------------------------
 {
     m_p1 = a;
     m_p2 = b;
     m_p3 = c;
 
     computeNormal();
+}
+
+
+//------------------------------------------------
+inline void Triangle::setTextCoords(const Vec3& a,
+						            const Vec3& b,
+						            const Vec3& c)
+//------------------------------------------------
+{
+    m_text_coord1 = a;
+    m_text_coord2 = b;
+    m_text_coord3 = c;
 }
 
 
@@ -146,4 +175,42 @@ inline void Triangle::computeNormal()
 
 	m_normal = u.crossProduct(v);
 	m_normal.normalise();
+}
+
+
+//------------------------------------------------
+inline const Vec3& Triangle::getTextCoord1() const
+//------------------------------------------------
+{
+    return m_text_coord1;
+}
+
+
+//------------------------------------------------
+inline const Vec3& Triangle::getTextCoord2() const
+//------------------------------------------------
+{
+    return m_text_coord2;
+}
+
+
+//------------------------------------------------
+inline const Vec3& Triangle::getTextCoord3() const
+//------------------------------------------------
+{
+    return m_text_coord3;
+}
+
+
+//------------------------------------
+inline float Triangle::getArea() const
+//------------------------------------
+{
+	// See https://math.stackexchange.com/questions/128991/how-to-calculate-the-area-of-a-3d-triangle
+	Vec3 AB = m_p2 - m_p1;
+	Vec3 AC = m_p3 - m_p1;
+	
+	return 0.5 * sqrt(pow(AB[1] * AC[2] - AB[2] * AC[1], 2) +
+		pow(AB[2] * AC[0] - AB[0] * AC[2], 2) +
+		pow(AB[0] * AC[1] - AB[1] * AC[0], 2)); 
 }

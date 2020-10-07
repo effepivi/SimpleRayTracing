@@ -80,52 +80,109 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 void TriangleMesh::setGeometry(const std::vector<float>& aVertexSet)
 //------------------------------------------------------------------
 {
-		m_p_triangle_set.clear();
-		if (aVertexSet.size() % 9 == 0)
+	m_p_triangle_set.clear();
+	if (aVertexSet.size() % 9 == 0)
+	{
+		for (int i = 0; i < aVertexSet.size() / 9; ++i)
 		{
-				for (int i = 0; i < aVertexSet.size() / 9; ++i)
-				{
-						m_p_triangle_set.push_back(Triangle(
-						Vec3(aVertexSet[i * 9 + 0], aVertexSet[i * 9 + 1], aVertexSet[i * 9 + 2]),
-						Vec3(aVertexSet[i * 9 + 3], aVertexSet[i * 9 + 4], aVertexSet[i * 9 + 5]),
-						Vec3(aVertexSet[i * 9 + 6], aVertexSet[i * 9 + 7], aVertexSet[i * 9 + 8])));
-				}
+			m_p_triangle_set.push_back(Triangle(
+			Vec3(aVertexSet[i * 9 + 0], aVertexSet[i * 9 + 1], aVertexSet[i * 9 + 2]),
+			Vec3(aVertexSet[i * 9 + 3], aVertexSet[i * 9 + 4], aVertexSet[i * 9 + 5]),
+			Vec3(aVertexSet[i * 9 + 6], aVertexSet[i * 9 + 7], aVertexSet[i * 9 + 8])));
+		}
 
-				computeBoundingBox();
-		}
-		else
-		{
-				throw std::length_error("buffer size error");
-		}
+		computeBoundingBox();
+	}
+	else
+	{
+		throw std::length_error("buffer size error");
+	}
 }
 
 
 //-------------------------------------------------------------------------
 void TriangleMesh::setGeometry(const std::vector<float>& aVertexSet,
-		                           const std::vector<unsigned int>& anIndexSet)
+		                       const std::vector<unsigned int>& anIndexSet)
 //-------------------------------------------------------------------------
 {
-		m_p_triangle_set.clear();
-		if (aVertexSet.size() % 3 == 0 && anIndexSet.size() % 3 == 0)
+	m_p_triangle_set.clear();
+	if (aVertexSet.size() % 3 == 0 && anIndexSet.size() % 3 == 0)
+	{
+		for (int i = 0; i < anIndexSet.size() / 3; ++i)
 		{
-				for (int i = 0; i < anIndexSet.size() / 3; ++i)
-				{
-						unsigned int i1 = anIndexSet[i * 3 + 0];
-						unsigned int i2 = anIndexSet[i * 3 + 1];
-						unsigned int i3 = anIndexSet[i * 3 + 2];
+			unsigned int i1 = anIndexSet[i * 3 + 0];
+			unsigned int i2 = anIndexSet[i * 3 + 1];
+			unsigned int i3 = anIndexSet[i * 3 + 2];
 
-						m_p_triangle_set.push_back(Triangle(
-						Vec3(aVertexSet[i1 * 3 + 0], aVertexSet[i1 * 3 + 1], aVertexSet[i1 * 3 + 2]),
-						Vec3(aVertexSet[i2 * 3 + 0], aVertexSet[i2 * 3 + 1], aVertexSet[i2 * 3 + 2]),
-						Vec3(aVertexSet[i3 * 3 + 0], aVertexSet[i3 * 3 + 1], aVertexSet[i3 * 3 + 2])));
-				}
-
-				computeBoundingBox();
+			m_p_triangle_set.push_back(Triangle(
+			Vec3(aVertexSet[i1 * 3 + 0], aVertexSet[i1 * 3 + 1], aVertexSet[i1 * 3 + 2]),
+			Vec3(aVertexSet[i2 * 3 + 0], aVertexSet[i2 * 3 + 1], aVertexSet[i2 * 3 + 2]),
+			Vec3(aVertexSet[i3 * 3 + 0], aVertexSet[i3 * 3 + 1], aVertexSet[i3 * 3 + 2])));
 		}
-		else
+
+		computeBoundingBox();
+	}
+	else
+	{
+		throw std::length_error("buffer size error");
+	}
+}
+
+
+//---------------------------------------------------------------------
+void TriangleMesh::setGeometry(const std::vector<float>& aVertexSet,
+		                       const std::vector<float>& aTextCoordSet)
+//---------------------------------------------------------------------
+{
+	setGeometry(aVertexSet);
+	if (aVertexSet.size() == aTextCoordSet.size())
+	{
+		for (size_t i = 0; i < m_p_triangle_set.size(); ++i)
 		{
-				throw std::length_error("buffer size error");
+			unsigned int i1 = i * 3 + 0;
+			unsigned int i2 = i * 3 + 1;
+			unsigned int i3 = i * 3 + 2;
+
+			Vec3 a(aTextCoordSet[i1 * 3 + 0], aTextCoordSet[i1 * 3 + 1], aTextCoordSet[i1 * 3 + 2]);
+			Vec3 b(aTextCoordSet[i2 * 3 + 0], aTextCoordSet[i2 * 3 + 1], aTextCoordSet[i2 * 3 + 2]);
+			Vec3 c(aTextCoordSet[i3 * 3 + 0], aTextCoordSet[i3 * 3 + 1], aTextCoordSet[i3 * 3 + 2]);
+
+			m_p_triangle_set[i].setTextCoords(a, b, c);
 		}
+	}
+	else
+	{
+		throw std::length_error("buffer size error");
+	}
+}
+
+
+//-------------------------------------------------------------------------
+void TriangleMesh::setGeometry(const std::vector<float>& aVertexSet,
+		                       const std::vector<unsigned int>& anIndexSet,
+							   const std::vector<float>& aTextCoordSet)
+//-------------------------------------------------------------------------
+{
+	setGeometry(aVertexSet, anIndexSet);
+	if (aVertexSet.size() == aTextCoordSet.size())
+	{
+		for (int i = 0; i < anIndexSet.size() / 3; ++i)
+		{
+			unsigned int i1 = anIndexSet[i * 3 + 0];
+			unsigned int i2 = anIndexSet[i * 3 + 1];
+			unsigned int i3 = anIndexSet[i * 3 + 2];
+
+			Vec3 a(aTextCoordSet[i1 * 3 + 0], aTextCoordSet[i1 * 3 + 1], aTextCoordSet[i1 * 3 + 2]);
+			Vec3 b(aTextCoordSet[i2 * 3 + 0], aTextCoordSet[i2 * 3 + 1], aTextCoordSet[i2 * 3 + 2]);
+			Vec3 c(aTextCoordSet[i3 * 3 + 0], aTextCoordSet[i3 * 3 + 1], aTextCoordSet[i3 * 3 + 2]);
+
+			m_p_triangle_set[i].setTextCoords(a, b, c);
+		}
+	}
+	else
+	{
+		throw std::length_error("buffer size error");
+	}
 }
 
 
@@ -133,37 +190,37 @@ void TriangleMesh::setGeometry(const std::vector<float>& aVertexSet,
 void TriangleMesh::computeBoundingBox()
 //-------------------------------------
 {
-		float inf = std::numeric_limits<float>::infinity();
+	float inf = std::numeric_limits<float>::infinity();
 
-		m_lower_bbox_corner = Vec3( inf,  inf,  inf);
-		m_upper_bbox_corner = Vec3(-inf, -inf, -inf);
+	m_lower_bbox_corner = Vec3( inf,  inf,  inf);
+	m_upper_bbox_corner = Vec3(-inf, -inf, -inf);
 
-		for (std::vector<Triangle>::const_iterator ite = m_p_triangle_set.begin();
-				ite != m_p_triangle_set.end();
-				++ite)
-		{
-				m_lower_bbox_corner[0] = std::min(m_lower_bbox_corner[0], ite->getP1()[0]);
-				m_lower_bbox_corner[1] = std::min(m_lower_bbox_corner[1], ite->getP1()[1]);
-				m_lower_bbox_corner[2] = std::min(m_lower_bbox_corner[2], ite->getP1()[2]);
+	for (std::vector<Triangle>::const_iterator ite = m_p_triangle_set.begin();
+			ite != m_p_triangle_set.end();
+			++ite)
+	{
+		m_lower_bbox_corner[0] = std::min(m_lower_bbox_corner[0], ite->getP1()[0]);
+		m_lower_bbox_corner[1] = std::min(m_lower_bbox_corner[1], ite->getP1()[1]);
+		m_lower_bbox_corner[2] = std::min(m_lower_bbox_corner[2], ite->getP1()[2]);
 
-				m_upper_bbox_corner[0] = std::max(m_upper_bbox_corner[0], ite->getP1()[0]);
-				m_upper_bbox_corner[1] = std::max(m_upper_bbox_corner[1], ite->getP1()[1]);
-				m_upper_bbox_corner[2] = std::max(m_upper_bbox_corner[2], ite->getP1()[2]);
+		m_upper_bbox_corner[0] = std::max(m_upper_bbox_corner[0], ite->getP1()[0]);
+		m_upper_bbox_corner[1] = std::max(m_upper_bbox_corner[1], ite->getP1()[1]);
+		m_upper_bbox_corner[2] = std::max(m_upper_bbox_corner[2], ite->getP1()[2]);
 
-				m_lower_bbox_corner[0] = std::min(m_lower_bbox_corner[0], ite->getP2()[0]);
-				m_lower_bbox_corner[1] = std::min(m_lower_bbox_corner[1], ite->getP2()[1]);
-				m_lower_bbox_corner[2] = std::min(m_lower_bbox_corner[2], ite->getP2()[2]);
+		m_lower_bbox_corner[0] = std::min(m_lower_bbox_corner[0], ite->getP2()[0]);
+		m_lower_bbox_corner[1] = std::min(m_lower_bbox_corner[1], ite->getP2()[1]);
+		m_lower_bbox_corner[2] = std::min(m_lower_bbox_corner[2], ite->getP2()[2]);
 
-				m_upper_bbox_corner[0] = std::max(m_upper_bbox_corner[0], ite->getP2()[0]);
-				m_upper_bbox_corner[1] = std::max(m_upper_bbox_corner[1], ite->getP2()[1]);
-				m_upper_bbox_corner[2] = std::max(m_upper_bbox_corner[2], ite->getP2()[2]);
+		m_upper_bbox_corner[0] = std::max(m_upper_bbox_corner[0], ite->getP2()[0]);
+		m_upper_bbox_corner[1] = std::max(m_upper_bbox_corner[1], ite->getP2()[1]);
+		m_upper_bbox_corner[2] = std::max(m_upper_bbox_corner[2], ite->getP2()[2]);
 
-				m_lower_bbox_corner[0] = std::min(m_lower_bbox_corner[0], ite->getP3()[0]);
-				m_lower_bbox_corner[1] = std::min(m_lower_bbox_corner[1], ite->getP3()[1]);
-				m_lower_bbox_corner[2] = std::min(m_lower_bbox_corner[2], ite->getP3()[2]);
+		m_lower_bbox_corner[0] = std::min(m_lower_bbox_corner[0], ite->getP3()[0]);
+		m_lower_bbox_corner[1] = std::min(m_lower_bbox_corner[1], ite->getP3()[1]);
+		m_lower_bbox_corner[2] = std::min(m_lower_bbox_corner[2], ite->getP3()[2]);
 
-				m_upper_bbox_corner[0] = std::max(m_upper_bbox_corner[0], ite->getP3()[0]);
-				m_upper_bbox_corner[1] = std::max(m_upper_bbox_corner[1], ite->getP3()[1]);
-				m_upper_bbox_corner[2] = std::max(m_upper_bbox_corner[2], ite->getP3()[2]);
-		}
+		m_upper_bbox_corner[0] = std::max(m_upper_bbox_corner[0], ite->getP3()[0]);
+		m_upper_bbox_corner[1] = std::max(m_upper_bbox_corner[1], ite->getP3()[1]);
+		m_upper_bbox_corner[2] = std::max(m_upper_bbox_corner[2], ite->getP3()[2]);
+	}
 }

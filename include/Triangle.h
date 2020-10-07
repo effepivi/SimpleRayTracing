@@ -94,7 +94,12 @@ class Triangle
 {
 //******************************************************************************
 public:
-    Triangle(const Vec3& a, const Vec3& b, const Vec3& c);
+    Triangle(const Vec3& a,
+    		const Vec3& b,
+			const Vec3& c,
+			const Vec3& d = Vec3(),
+			const Vec3& e = Vec3(),
+			const Vec3& f = Vec3());
 
 
     Triangle& operator=(const Triangle& aTriangle);
@@ -104,9 +109,14 @@ public:
     const Vec3& getP2() const;
     const Vec3& getP3() const;
     const Vec3& getNormal() const;
+    const Vec3& getTextCoord1() const;
+    const Vec3& getTextCoord2() const;
+    const Vec3& getTextCoord3() const;
 
-    void set(const Vec3& a, const Vec3& b, const Vec3& c);
+    void setVertices(const Vec3& a, const Vec3& b, const Vec3& c);
+    void setTextCoords(const Vec3& a, const Vec3& b, const Vec3& c);
 
+    float getArea() const;
 
 //******************************************************************************
 private:
@@ -117,6 +127,10 @@ private:
     Vec3 m_p3;
 
     Vec3 m_normal;
+
+    Vec3 m_text_coord1;
+    Vec3 m_text_coord2;
+    Vec3 m_text_coord3;
 };
 
 

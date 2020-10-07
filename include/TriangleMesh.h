@@ -109,12 +109,32 @@ class TriangleMesh
 //******************************************************************************
 public:
 	TriangleMesh();
+
 	TriangleMesh(const std::vector<float>& aVertexSet);
-	TriangleMesh(const std::vector<float>& aVertexSet, const std::vector<unsigned int>& anIndexSet);
+
+	TriangleMesh(const std::vector<float>& aVertexSet,
+			const std::vector<unsigned int>& anIndexSet);
+
+	TriangleMesh(const std::vector<float>& aVertexSet,
+			const std::vector<float>& aTextCoordSet);
+
+	TriangleMesh(const std::vector<float>& aVertexSet,
+			const std::vector<unsigned int>& anIndexSet,
+			const std::vector<float>& aTextCoordSet);
+
 	TriangleMesh(const std::vector<Triangle>& aTriangleSet);
 
 	void setGeometry(const std::vector<float>& aVertexSet);
-	void setGeometry(const std::vector<float>& aVertexSet, const std::vector<unsigned int>& anIndexSet);
+	void setGeometry(const std::vector<float>& aVertexSet,
+			const std::vector<unsigned int>& anIndexSet);
+
+	void setGeometry(const std::vector<float>& aVertexSet,
+			const std::vector<float>& aTextCoordSet);
+
+	void setGeometry(const std::vector<float>& aVertexSet,
+			const std::vector<unsigned int>& anIndexSet,
+			const std::vector<float>& aTextCoordSet);
+
 	void setGeometry(const std::vector<Triangle>& aTriangleSet);
 
 	void setMaterial(const Material& aMaterial);
