@@ -210,6 +210,57 @@ void Image::saveJPEGFile(const char* aFileName)
 }
 
 
+//---------------------------------------------
+void Image::saveTGAFile(const char* aFileName)
+//---------------------------------------------
+{
+    // Specify the destination for the compressed data (eg, a file)
+    FILE* p_output_file(fopen(aFileName, "wb"));
+    if (!p_output_file)
+    {
+        std::cerr << "Can't open " << aFileName << std::endl;
+        exit(1);
+    }
+
+	putc(0, p_output_file);
+	putc(0, p_output_file);
+	putc(2, p_output_file);                         /* uncompressed RGB */
+	putc(0, p_output_file);
+	putc(0, p_output_file);
+	putc(0, p_output_file);
+	putc(0, p_output_file);
+	putc(0, p_output_file);
+	putc(0, p_output_file);
+	putc(0, p_output_file);           /* X origin */
+	putc(0, p_output_file);
+	putc(0, p_output_file);           /* y origin */
+	putc((m_width & 0xFF), p_output_file);
+	putc((m_width >> 8)  & 0xFF, p_output_file);
+	putc((m_height & 0xFF), p_output_file);
+	putc((m_height >> 8)  & 0xFF, p_output_file);
+	putc(24, p_output_file);                        /* 24 bit bitmap */
+
+	for (int row = 0; row < m_height; ++row)
+	{
+		for (int col = 0; col < m_width; ++col)
+		{
+			fwrite(m_p_pixel_data + row * m_width * 3 + col * 3,
+					sizeof(unsigned char), 1,
+					p_output_file);
+
+			fwrite(m_p_pixel_data + row * m_width * 3 + col * 3 + 2,
+					sizeof(unsigned char), 1,
+					p_output_file);
+
+			fwrite(m_p_pixel_data + row * m_width * 3 + col * 3 + 1,
+					sizeof(unsigned char), 1,
+					p_output_file);
+		}
+	}
+	fclose(p_output_file);
+}
+
+
 //------------------------------------------------------------
 void Image::setSize(unsigned int aWidth, unsigned int aHeight)
 //------------------------------------------------------------

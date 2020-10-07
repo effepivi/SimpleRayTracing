@@ -112,6 +112,14 @@ inline void Image::saveJPEGFile(const std::string& aFileName)
 }
 
 
+//----------------------------------------------------------
+inline void Image::saveTGAFile(const std::string& aFileName)
+//----------------------------------------------------------
+{
+    saveTGAFile(aFileName.data());
+}
+
+
 //-----------------------------------------------------
 inline void Image::getSize(unsigned int& aWidth,
                            unsigned int& aHeight) const

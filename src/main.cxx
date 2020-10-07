@@ -218,116 +218,78 @@ int main(int argc, char** argv)
 	g_direction.normalise();
 	Vec3 right(g_direction.crossProduct(g_up));
 
-	unsigned char* p_image = new unsigned char[3 * g_output_image.getWidth() * g_output_image.getHeight()];
-	if (p_image)
-	{
-		// Process every row
+	// Process every row
 #pragma omp parallel for collapse(2)
-		for (int row = 0; row < g_output_image.getHeight(); ++row)
+	for (int row = 0; row < g_output_image.getHeight(); ++row)
+	{
+		// Process every column
+		for (int col = 0; col < g_output_image.getWidth(); ++col)
 		{
-			// Process every column
-			for (int col = 0; col < g_output_image.getWidth(); ++col)
+			float v_offset = g_pixel_spacing[1] * (0.5 + row - g_output_image.getHeight() / 2.0);
+			float u_offset = g_pixel_spacing[0] * (0.5 + col - g_output_image.getWidth() / 2.0);
+
+			// Initialise the ray direction
+			Vec3 direction = g_detector_position + g_up * v_offset + right * u_offset - g_origin;
+			direction.normalise();
+			Ray ray(g_origin, direction);
+
+			// Initialise the nearest intersection position and the fragment colour
+			float nearest_intersection = inf;
+			Vec3 colour = g_background_colour;
+
+			// Process every mesh
+			for (std::vector<TriangleMesh>::const_iterator mesh_ite = g_mesh_set.begin();
+					mesh_ite != g_mesh_set.end();
+					++mesh_ite)
 			{
-				float v_offset = g_pixel_spacing[1] * (0.5 + row - g_output_image.getHeight() / 2.0);
-				float u_offset = g_pixel_spacing[0] * (0.5 + col - g_output_image.getWidth() / 2.0);
+				Material material = mesh_ite->getMaterial();
 
-				// Initialise the ray direction
-				Vec3 direction = g_detector_position + g_up * v_offset + right * u_offset - g_origin;
-				direction.normalise();
-				Ray ray(g_origin, direction);
-
-				// Initialise the nearest intersection position and the fragment colour
-				float nearest_intersection = inf;
-				Vec3 colour = g_background_colour;
-
-				// Process every mesh
-				for (std::vector<TriangleMesh>::const_iterator mesh_ite = g_mesh_set.begin();
-						mesh_ite != g_mesh_set.end();
-						++mesh_ite)
+				// The ray intersect the mesh's bbox
+				if (mesh_ite->intersectBBox(ray))
 				{
-					Material material = mesh_ite->getMaterial();
-
-					// The ray intersect the mesh's bbox
-					if (mesh_ite->intersectBBox(ray))
+					// Process all the triangles of the mesh
+					for (unsigned int triangle_id = 0;
+							triangle_id < mesh_ite->getNumberOfTriangles();
+							++triangle_id)
 					{
-						// Process all the triangles of the mesh
-						for (unsigned int triangle_id = 0;
-								triangle_id < mesh_ite->getNumberOfTriangles();
-								++triangle_id)
+						float t;
+
+						const Triangle& triangle = mesh_ite->getTriangle(triangle_id);
+						bool intersect = ray.intersect(triangle, t);
+
+						if (intersect)
 						{
-							float t;
-
-							const Triangle& triangle = mesh_ite->getTriangle(triangle_id);
-							bool intersect = ray.intersect(triangle, t);
-
-							if (intersect)
+							if (t < nearest_intersection)
 							{
-								if (t < nearest_intersection)
-								{
-									colour = getFragment(g_light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
-								}
+								colour = getFragment(g_light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
 							}
 						}
 					}
 				}
-
-				unsigned char r, g, b;
-
-				if (255.0 * colour[0] < 0) r = 0;
-				else if (255.0 * colour[0] > 255) r = 255;
-				else r = int(255.0 * colour[0]);
-
-				if (255.0 * colour[1] < 0) g = 0;
-				else if (255.0 * colour[1] > 255) g = 255;
-				else g = int(255.0 * colour[1]);
-
-				if (255.0 * colour[2] < 0) b = 0;
-				else if (255.0 * colour[2] > 255) b = 255;
-				else b = int(255.0 * colour[2]);
-
-				r = b = 0 ;
-				g_output_image.setPixel(col, row, r, g, b);
-
-				p_image[row * g_output_image.getWidth() * 3 + col * 3 + 0] = r;
-				p_image[row * g_output_image.getWidth() * 3 + col * 3 + 2] = g;
-				p_image[row * g_output_image.getWidth() * 3 + col * 3 + 1] = b;
 			}
+
+			unsigned char r, g, b;
+
+			if (255.0 * colour[0] < 0) r = 0;
+			else if (255.0 * colour[0] > 255) r = 255;
+			else r = int(255.0 * colour[0]);
+
+			if (255.0 * colour[1] < 0) g = 0;
+			else if (255.0 * colour[1] > 255) g = 255;
+			else g = int(255.0 * colour[1]);
+
+			if (255.0 * colour[2] < 0) b = 0;
+			else if (255.0 * colour[2] > 255) b = 255;
+			else b = int(255.0 * colour[2]);
+
+			r = b = 0 ;
+			g_output_image.setPixel(col, row, r, g, b);
 		}
-
-		// Save the image
-		g_output_image.saveJPEGFile("test.jpg");
-		FILE* p_file(fopen("test.tga", "wb"));
-
-		if (p_file)
-		{
-			putc(0, p_file);
-			putc(0, p_file);
-			putc(2, p_file);                         /* uncompressed RGB */
-			putc(0, p_file);
-			putc(0, p_file);
-			putc(0, p_file);
-			putc(0, p_file);
-			putc(0, p_file);
-			putc(0, p_file);
-			putc(0, p_file);           /* X origin */
-			putc(0, p_file);
-			putc(0, p_file);           /* y origin */
-			putc((g_output_image.getWidth() & 0xFF), p_file);
-			putc((g_output_image.getWidth() >> 8)  & 0xFF, p_file);
-			putc((g_output_image.getHeight() & 0xFF), p_file);
-			putc((g_output_image.getHeight() >> 8)  & 0xFF, p_file);
-			putc(24, p_file);                        /* 24 bit bitmap */
-
-			for (int row = 0; row < g_output_image.getHeight(); ++row)
-			{
-				fwrite(p_image + row * g_output_image.getWidth() * 3,
-				sizeof(unsigned char), g_output_image.getWidth() * 3,
-				p_file);
-			}
-		}
-		fclose(p_file);
-		delete [] p_image;
 	}
+
+	// Save the image
+	g_output_image.saveJPEGFile("test.jpg");
+	g_output_image.saveTGAFile("test.tga");
 
 	return 0;
 }

@@ -137,6 +137,24 @@ public:
 
 
     //--------------------------------------------------------------------------
+    /// Save the current image into a JPEG file
+    /*
+     *   @param aFileName    the name of the JPEG file
+     */
+    //--------------------------------------------------------------------------
+    void saveTGAFile(const char* aFileName);
+
+
+    //--------------------------------------------------------------------------
+    /// Save the current image into a JPEG file
+    /*
+     *   @param aFileName    the name of the JPEG file
+     */
+    //--------------------------------------------------------------------------
+    void saveTGAFile(const std::string& aFileName);
+
+
+    //--------------------------------------------------------------------------
     /// Accessor on the image size (in number of pixels)
     /*
      *   @param aWidth   the image width
