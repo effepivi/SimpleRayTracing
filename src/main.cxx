@@ -170,7 +170,7 @@ int main(int argc, char** argv)
 	{
 		Material g_material(0.2 * g_red, g_green, g_blue, 1);
 
-		loadMesh("../dragon.ply");
+		loadMesh("./dragon.ply");
 
 		// Get the scene's bbox
 		float inf = std::numeric_limits<float>::infinity();
