@@ -1,0 +1,21 @@
+Processor,Number of threads,Runtime in seconds,Compilation
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,105,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,109,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,151,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,275,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,992,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,563,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,577,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,24,,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,24,,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,,Debug
