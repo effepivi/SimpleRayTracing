@@ -21,11 +21,11 @@ Runtime in seconds on GNU/Linux openSUSE using g++ (SUSE Linux) 7.5.0 using two 
 
 | Processor:                                      | Release date | Parallelisation     | Release | Debug |
 |-------------------------------------------------|--------------|---------------------|---------|-------|
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | None                | 992     |       |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (4 threads)  | 275     | 563   |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (8 threads)  | 151     | 577   |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (16 threads) | 109     |       |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (24 threads) | 105     |       |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | None                | 992     | 2790  |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (4 threads)  | 275     | 1313  |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (8 threads)  | 151     | 711   |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (16 threads) | 109     | 577   |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz        | Q4 2018      | OpenMP (24 threads) | 105     | 563   |
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | None                |         |       |
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (4 threads)  |         |       |
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (8 threads)  |         |       |
@@ -33,4 +33,4 @@ Runtime in seconds on GNU/Linux openSUSE using g++ (SUSE Linux) 7.5.0 using two 
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (24 threads) |         |       |
 
 ![Plot of the runtimes](runtimes.png)
-
+ff
