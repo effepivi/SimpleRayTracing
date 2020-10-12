@@ -59,6 +59,10 @@ TARGET_INCLUDE_DIRECTORIES(RayTracing PUBLIC include)
 
 TARGET_LINK_LIBRARIES (RayTracing ${requiredLibs} ${optionalLibs})
 
+IF (NOT USE_SYSTEM_ASSIMP)
+    add_dependencies (RayTracing assimp)
+ENDIF (NOT USE_SYSTEM_ASSIMP)
+
 
 # Program ###############################################################
 add_executable(main src/main.cxx)
