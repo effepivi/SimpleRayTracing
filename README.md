@@ -32,6 +32,5 @@ Runtime in seconds on GNU/Linux openSUSE using g++ (SUSE Linux) 7.5.0 using two 
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (16 threads) |         |       |
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (24 threads) |         |       |
 
-![Plot of the runtimes](runtimes.pdf)
-
 ![Plot of the runtimes](runtimes.png)
+
