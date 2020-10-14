@@ -100,8 +100,13 @@ public:
 
 //******************************************************************************
 private:
+		// The light colour
     Vec3 m_colour;
+
+		/// The light direction
     Vec3 m_direction;
+
+		/// The light color
     Vec3 m_position;
 };
 

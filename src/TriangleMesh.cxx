@@ -66,7 +66,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm> // for max
 #include <stdexcept> // for exceptions
 
-#ifndef TriangleMesh_h
+#ifndef __TriangleMesh_h
 #include "TriangleMesh.h"
 #endif
 

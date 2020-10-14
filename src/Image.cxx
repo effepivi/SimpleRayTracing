@@ -26,7 +26,7 @@
 #include <jerror.h>
 #include <jpeglib.h>
 
-#ifndef Image_h
+#ifndef __Image_h
 #include "Image.h"
 #endif
 

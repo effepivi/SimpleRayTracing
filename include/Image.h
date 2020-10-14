@@ -1,5 +1,5 @@
-#ifndef Image_h
-#define Image_h
+#ifndef __Image_h
+#define __Image_h
 
 
 /**
@@ -82,7 +82,7 @@ public:
 			unsigned char g = 0,
 			unsigned char b = 0);
 
-    
+
     //--------------------------------------------------------------------------
     /// Destructor
     //--------------------------------------------------------------------------
@@ -129,8 +129,8 @@ public:
      */
     //--------------------------------------------------------------------------
     void saveJPEGFile(const char* aFileName);
-    
-    
+
+
     //--------------------------------------------------------------------------
     /// Save the current image into a JPEG file
     /*
@@ -166,8 +166,8 @@ public:
      */
     //--------------------------------------------------------------------------
     void getSize(unsigned int& aWidth, unsigned int& aHeight) const;
-    
-    
+
+
     //--------------------------------------------------------------------------
     /// Accessor on the image width (in number of pixels)
     /*
@@ -175,8 +175,8 @@ public:
      */
     //--------------------------------------------------------------------------
     unsigned int getWidth() const;
-    
-    
+
+
     //--------------------------------------------------------------------------
     /// Accessor on the image height (in number of pixels)
     /*
@@ -184,7 +184,7 @@ public:
      */
     //--------------------------------------------------------------------------
     unsigned int getHeight() const;
-    
+
 
     //--------------------------------------------------------------------------
     /// Accessor on the raw pixel values
@@ -201,7 +201,7 @@ public:
                   unsigned char g,
                   unsigned char b);
 
-    
+
     void getPixel(unsigned int i,
                   unsigned int j,
                   unsigned char& r,
