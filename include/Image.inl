@@ -18,15 +18,17 @@
 //******************************************************************************
 //  Include
 //******************************************************************************
+#include <stdexcept>
+#include <sstream>
 
 
-//----------------------------------
+//------------------------
 inline Image::Image():
-//----------------------------------
+//------------------------
         m_p_pixel_data(0),
         m_width(0),
         m_height(0)
-//----------------------------------
+//------------------------
 {
 }
 
@@ -157,13 +159,15 @@ inline unsigned char* Image::getData() const
 }
 
 
-
+//------------------------------------------
 inline void Image::setPixel(unsigned int i,
                             unsigned int j,
                             unsigned char r,
                             unsigned char g,
                             unsigned char b)
+//------------------------------------------
 {
+    // The 2D index is valid
     if (i < m_width && j < m_height)
     {
         unsigned int index = j * m_width * 3 + i * 3;
@@ -171,20 +175,43 @@ inline void Image::setPixel(unsigned int i,
         m_p_pixel_data[index + 1] = g;
         m_p_pixel_data[index + 2] = b;
     }
+    // The 2D index is not valid
+    else
+    {
+        std::stringstream error_message;
+        error_message << " in File " << __FILE__ <<
+            ", in Function " << __FUNCTION__ <<
+            ", at Line " << __LINE__;
+
+        throw std::out_of_range(error_message.str());
+    }
 }
 
 
+//-------------------------------------------------
 inline void Image::getPixel(unsigned int i,
                             unsigned int j,
                             unsigned char& r,
                             unsigned char& g,
                             unsigned char& b) const
+//-------------------------------------------------
 {
+    // The 2D index is valid
     if (i < m_width && j < m_height)
     {
         unsigned int index = j * m_width * 3 + i * 3;
         r = m_p_pixel_data[index];
         g = m_p_pixel_data[index + 1];
         b = m_p_pixel_data[index + 2];
+    }
+    // The 2D index is not valid
+    else
+    {
+        std::stringstream error_message;
+        error_message << " in File " << __FILE__ <<
+            ", in Function " << __FUNCTION__ <<
+            ", at Line " << __LINE__;
+
+        throw std::out_of_range(error_message.str());
     }
 }
