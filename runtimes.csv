@@ -1,21 +1,57 @@
-Processor,Number of threads,Runtime in seconds,Compilation
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,105,Release
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,109,Release
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,151,Release
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,275,Release
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,992,Release
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,563,Debug
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,577,Debug
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,711,Debug
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,1313,Debug
-Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,2790,Debug
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,24,305,Release
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,305,Release
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,311,Release
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,522,Release
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,2001,Release
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,24,,Debug
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,,Debug
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,,Debug
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,,Debug
-AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,,Debug
+Processor,Number of threads,Runtime in seconds,Compiler,Compilation
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,80,103,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,40,108,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,105,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,109,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,151,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,275,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,992,g++ 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,80,562,g++ 7.5.0,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,40,561,g++ 7.5.0,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,563,g++ 7.5.0,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,577,g++ 7.5.0,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,711,g++ 7.5.0,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,1313,g++ 7.5.0,Debug
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,2790,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,80,306,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,40,306,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,24,305,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,305,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,311,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,522,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,2001,g++ 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,80,,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,40,,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,24,,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,,g++ 7.5.0,Debug
+AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,,g++ 7.5.0,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,45.49,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,44.73,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,63.46,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,91.76,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,178.03,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,344.55,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,1309.66,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,,icc 19.1.2.254,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,,icc 19.1.2.254,Debug
