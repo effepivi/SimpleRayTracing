@@ -3,9 +3,9 @@ macro(build_assimp install_prefix staging_prefix)
 
 # make a custom ASSIMP configuration file
 
-SET (ASSIMP_VERSION_STRING 4.1)
-SET (ASSIMP_VERSION_MAJOR  4)
-SET (ASSIMP_VERSION_MINOR  1)
+SET (ASSIMP_VERSION_STRING 5.0)
+SET (ASSIMP_VERSION_MAJOR  5)
+SET (ASSIMP_VERSION_MINOR  0)
 
 set(CMAKE_OSX_EXTERNAL_PROJECT_ARGS)
 if(APPLE)
@@ -20,8 +20,8 @@ endif()
 SET (ASSIMP_INSTALL_DIR ${staging_prefix}/${install_prefix}-install)
 
 ExternalProject_Add(assimp
-  URL  "https://github.com/assimp/assimp/archive/v4.1.0.zip"
-  URL_MD5 "e98a03f9496ff761e67f29b645e04316"
+  URL  "https://github.com/assimp/assimp/archive/v5.0.1.zip"
+  URL_MD5 "11595546066ce52c0039818b8599f38b"
   UPDATE_COMMAND ""
   SOURCE_DIR  ${staging_prefix}/${install_prefix}-source
   BINARY_DIR  ${staging_prefix}/${install_prefix}-build
@@ -30,7 +30,9 @@ ExternalProject_Add(assimp
   CMAKE_GENERATOR ${CMAKE_GEN}
   CMAKE_ARGS
       ${LOCAL_CMAKE_BUILD_OPTIONS}
-
+      -DCMAKE_CXX_STANDARD=11
+      -DCMAKE_CXX_STANDARD_REQUIRED=ON
+      -DCMAKE_CXX_EXTENSIONS=OFF
       -DCMAKE_INSTALL_PREFIX:PATH=${ASSIMP_INSTALL_DIR}
       -DASSIMP_BUILD_TESTS:BOOL=OFF
       -DBUILD_SHARED_LIBS:BOOL=OFF

@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 3.12)
 project(ICE4131-202021-Assignment)
 
 
+# Enable C++ 11################################################################
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+
 # JPEG ########################################################################
 FIND_PACKAGE(JPEG REQUIRED)
 SET(requiredLibs ${requiredLibs} ${JPEG_LIBRARY})
@@ -74,4 +80,3 @@ endif()
 FILE(COPY cloud2.jpg DESTINATION ${CMAKE_BINARY_DIR})
 #FILE(COPY Bangor_Logo_A1.jpg DESTINATION ${CMAKE_BINARY_DIR})
 FILE(COPY dragon.ply DESTINATION ${CMAKE_BINARY_DIR})
-
