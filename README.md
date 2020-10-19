@@ -38,21 +38,21 @@ The same code was also executed on [Supercomputing Wales](https://www.supercompu
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (8 threads)  | 311     |       | g++ 7.5.0    |
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (16 threads) | 305     |       | g++ 7.5.0    |
 | AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (24 threads) | 305     |       | g++ 7.5.0    |
-| AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (40 threads) |      |       | g++ 7.5.0    |
-| AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (80 threads) |      |       | g++ 7.5.0    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | None                |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (4 threads)  |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (8 threads)  |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (16 threads) |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (24 threads) |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (40 threads) |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (80 threads) |      |       | g++ 4.8.5    |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | None                |      |       | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (4 threads)  |      |       | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (8 threads)  |      |       | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (16 threads) |      |       | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (24 threads) |      |       | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (40 threads) |      |       | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (80 threads) |      |       | icc 19.1.2.254 |
+| AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (40 threads) |         |       | g++ 7.5.0    |
+| AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz  | Q4 2012      | OpenMP (80 threads) |         |       | g++ 7.5.0    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | None                |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (4 threads)  |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (8 threads)  |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (16 threads) |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (24 threads) |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (40 threads) |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (80 threads) |         |       | g++ 4.8.5    |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | None                |         |       | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (4 threads)  |         |       | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (8 threads)  |         |       | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (16 threads) |         |       | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (24 threads) |         |       | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (40 threads) |         |       | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (80 threads) |         |       | icc 19.1.2.254 |
 
 ![Plot of the runtimes](runtimes.png)
