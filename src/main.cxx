@@ -129,8 +129,8 @@ void getBBox(const vector<TriangleMesh>& aMeshSet,
 //******************************************************************************
 //  Constant global variables
 //******************************************************************************
-const unsigned int g_image_width = 128;
-const unsigned int g_image_height = 128;
+const unsigned int g_image_width = 2048;
+const unsigned int g_image_height = 2048;
 
 const Vec3 g_black(0, 0, 0);
 const Vec3 g_white(1, 1, 1);
@@ -182,9 +182,10 @@ int main(int argc, char** argv)
 				float res2 = range[1] / output_image.getHeight();
 				float pixel_spacing[] = {2 * std::max(res1, res2), 2 * std::max(res1, res2)};
 
-                Vec3 light_direction = bbox_centre - upper_bbox_corner;
+                Vec3 light_position = origin + up * 100.0;
+                Vec3 light_direction = bbox_centre - light_position;
                 light_direction.normalise();
-				Light light(g_white, direction, origin);
+				Light light(g_white, light_direction, light_position);
 
 				direction.normalise();
 				Vec3 right(direction.crossProduct(up));
@@ -267,79 +268,115 @@ int main(int argc, char** argv)
                                         // Define the shadow ray
 								        Vec3 shadow_ray_direction = light.getPosition() - point_hit;
 								        shadow_ray_direction.normalise();
-								        Ray ray(point_hit, shadow_ray_direction);
+								        Ray shadow_ray(point_hit, shadow_ray_direction);
                                         
                                         bool is_point_in_shadow = false; 
-                                                    
+                                        
+        								// Process every mesh
+								        for (std::vector<TriangleMesh>::const_iterator mesh_ite = p_mesh_set.begin();
+										        mesh_ite != p_mesh_set.end();
+										        ++mesh_ite)
+								        {
+												// Process all the triangles of the mesh
+												for (unsigned int triangle_id = 0;
+														triangle_id < mesh_ite->getNumberOfTriangles();
+														++triangle_id)
+												{
+														// Retrievethe triangle
+														const Triangle& triangle = mesh_ite->getTriangle(triangle_id);
+
+                                                        if (&triangle != p_intersected_triangle)
+                                                        {
+														        // Retrieve the intersection if any
+														        float t;
+														        bool intersection = shadow_ray.intersect(triangle, t);
+														        if (intersection && t > 0.0000001)
+														        {
+            														cout << t << endl;
+                                                                    is_point_in_shadow = true; 
+                                                                    break; 
+                                                                } 
+                                                        }
+                                                }
+                                        } 
+                                        
+                                        // Apply soft shadows
+                                        if (is_point_in_shadow)
+                                        {
+									            colour[0] *= 0.25;
+									            colour[1] *= 0.25;
+									            colour[2] *= 0.25;
+                                        }
+                                        
 										const Image& texture = p_intersected_object->getTexture();
 
-										// Use texturing
-										if (texture.getWidth() * texture.getHeight())
-										{
-												// Get the position of the intersection
+								        // Use texturing
+								        if (texture.getWidth() * texture.getHeight())
+								        {
+										        // Get the position of the intersection
 
-												Vec3 P = origin + t * direction;
+										        Vec3 P = origin + t * direction;
 
-												// See https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/barycentric-coordinates
-												Vec3 A = p_intersected_triangle->getP1();
-												Vec3 B = p_intersected_triangle->getP2();
-												Vec3 C = p_intersected_triangle->getP3();
+										        // See https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/barycentric-coordinates
+										        Vec3 A = p_intersected_triangle->getP1();
+										        Vec3 B = p_intersected_triangle->getP2();
+										        Vec3 C = p_intersected_triangle->getP3();
 
-												Triangle ABC(A, B, C);
-												Triangle ABP(A, B, P);
-												Triangle BCP(B, C, P);
-												Triangle CAP(C, A, P);
+										        Triangle ABC(A, B, C);
+										        Triangle ABP(A, B, P);
+										        Triangle BCP(B, C, P);
+										        Triangle CAP(C, A, P);
 
-												float area_ABC = ABC.getArea();
-												float u = CAP.getArea() / area_ABC;
-												float v = ABP.getArea() / area_ABC;
-												float w = BCP.getArea() / area_ABC;
+										        float area_ABC = ABC.getArea();
+										        float u = CAP.getArea() / area_ABC;
+										        float v = ABP.getArea() / area_ABC;
+										        float w = BCP.getArea() / area_ABC;
 
-												// Getthe texel cooredinate
-												Vec3 texel_coord(w * p_intersected_triangle->getTextCoord1() + u * p_intersected_triangle->getTextCoord2() + v * p_intersected_triangle->getTextCoord3());
+										        // Getthe texel cooredinate
+										        Vec3 texel_coord(w * p_intersected_triangle->getTextCoord1() + u * p_intersected_triangle->getTextCoord2() + v * p_intersected_triangle->getTextCoord3());
 
-												unsigned char texel_r;
-												unsigned char texel_g;
-												unsigned char texel_b;
+										        unsigned char texel_r;
+										        unsigned char texel_g;
+										        unsigned char texel_b;
 
-												// Retrieve the pixel value from the texture
-												texture.getPixel(texel_coord[0] * (texture.getWidth() - 1),
-														texel_coord[1] * (texture.getHeight() - 1),
-														texel_r, texel_g, texel_b);
+										        // Retrieve the pixel value from the texture
+										        texture.getPixel(texel_coord[0] * (texture.getWidth() - 1),
+												        texel_coord[1] * (texture.getHeight() - 1),
+												        texel_r, texel_g, texel_b);
 
-												colour[0] *= texel_r;
-												colour[1] *= texel_g;
-												colour[2] *= texel_b;
+										        colour[0] *= texel_r;
+										        colour[1] *= texel_g;
+										        colour[2] *= texel_b;
 
-												// Clamp the value to the range 0 to 255
-												if (colour[0] < 0) r = 0;
-												else if (colour[0] > 255) r = 255;
-												else r = int(colour[0]);
+										        // Clamp the value to the range 0 to 255
+										        if (colour[0] < 0) r = 0;
+										        else if (colour[0] > 255) r = 255;
+										        else r = int(colour[0]);
 
-												if (colour[1] < 0) g = 0;
-												else if (colour[1] > 255) g = 255;
-												else g = int(colour[1]);
+										        if (colour[1] < 0) g = 0;
+										        else if (colour[1] > 255) g = 255;
+										        else g = int(colour[1]);
 
-												if (colour[2] < 0) b = 0;
-												else if (colour[2] > 255) b = 255;
-												else b = int(colour[2]);
-										}
-										else
-										{
-												// Convert from float to UCHAR and
-												// clamp the value to the range 0 to 255
-												if (255.0 * colour[0] < 0) r = 0;
-												else if (255.0 * colour[0] > 255) r = 255;
-												else r = int(255.0 * colour[0]);
+										        if (colour[2] < 0) b = 0;
+										        else if (colour[2] > 255) b = 255;
+										        else b = int(colour[2]);
+								        }
+								        else
+								        {
+										        // Convert from float to UCHAR and
+										        // clamp the value to the range 0 to 255
+										        if (255.0 * colour[0] < 0) r = 0;
+										        else if (255.0 * colour[0] > 255) r = 255;
+										        else r = int(255.0 * colour[0]);
 
-												if (255.0 * colour[1] < 0) g = 0;
-												else if (255.0 * colour[1] > 255) g = 255;
-												else g = int(255.0 * colour[1]);
+										        if (255.0 * colour[1] < 0) g = 0;
+										        else if (255.0 * colour[1] > 255) g = 255;
+										        else g = int(255.0 * colour[1]);
 
-												if (255.0 * colour[2] < 0) b = 0;
-												else if (255.0 * colour[2] > 255) b = 255;
-												else b = int(255.0 * colour[2]);
-										}
+										        if (255.0 * colour[2] < 0) b = 0;
+										        else if (255.0 * colour[2] > 255) b = 255;
+										        else b = int(255.0 * colour[2]);
+								        }
 
 										// Update the pixel value
 										output_image.setPixel(col, row, r, g, b);
