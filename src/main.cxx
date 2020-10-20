@@ -182,6 +182,8 @@ int main(int argc, char** argv)
 				float res2 = range[1] / output_image.getHeight();
 				float pixel_spacing[] = {2 * std::max(res1, res2), 2 * std::max(res1, res2)};
 
+                Vec3 light_direction = bbox_centre - upper_bbox_corner;
+                light_direction.normalise();
 				Light light(g_white, direction, origin);
 
 				direction.normalise();
@@ -217,8 +219,6 @@ int main(int argc, char** argv)
 										mesh_ite != p_mesh_set.end();
 										++mesh_ite)
 								{
-										Material material = mesh_ite->getMaterial();
-
 										// The ray intersect the mesh's bbox
 										if (mesh_ite->intersectBBox(ray))
 										{
@@ -256,10 +256,21 @@ int main(int argc, char** argv)
 								if (p_intersected_object && p_intersected_triangle)
 								{
     									float t = z_buffer[row * output_image.getWidth() + col];
-										Vec3 colour = applyShading(light, material, p_intersected_triangle->getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
+    									Vec3 point_hit = ray.getOrigin() + t * ray.getDirection();
+										Material material = p_intersected_object->getMaterial();
+										Vec3 colour = applyShading(light, material, p_intersected_triangle->getNormal(), point_hit, ray.getOrigin());
 
-										unsigned char r, g, b;
+										unsigned char r = 0;
+										unsigned char g = 0;
+										unsigned char b = 0;
 
+                                        // Define the shadow ray
+								        Vec3 shadow_ray_direction = light.getPosition() - point_hit;
+								        shadow_ray_direction.normalise();
+								        Ray ray(point_hit, shadow_ray_direction);
+                                        
+                                        bool is_point_in_shadow = false; 
+                                                    
 										const Image& texture = p_intersected_object->getTexture();
 
 										// Use texturing
@@ -511,7 +522,7 @@ TriangleMesh createBackground(const Vec3& anUpperBBoxCorner,
 		};
 
 		TriangleMesh background_mesh(vertices, indices, text_coords);
-		Image cloud_texture(/*"Bangor_Logo_A1.jpg"*/ "cloud2.jpg");
+		Image cloud_texture("Bangor_Logo_A1.jpg" /*"cloud2.jpg"*/);
 		background_mesh.setTexture(cloud_texture);
 
 		return (background_mesh);
