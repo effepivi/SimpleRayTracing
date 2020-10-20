@@ -55,4 +55,6 @@ The same code was also executed on [Supercomputing Wales](https://www.supercompu
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (40 threads) | 46      | 234   | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz        | Q1 2018      | OpenMP (80 threads) | 48      | 242   | icc 19.1.2.254 |
 
+In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
+
 ![Plot of the runtimes](runtimes.png)
