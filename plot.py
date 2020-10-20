@@ -6,23 +6,28 @@ import pandas as pd
 
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 
-matplotlib.use('Qt5Agg')
+#matplotlib.use('Qt5Agg')
+
+colours = list(mcolors.TABLEAU_COLORS);
 
 df = pd.read_csv("runtimes.csv");
 
 fig = plt.figure(figsize=(11, 6));
 ax = plt.subplot(111);
 
+colour_id = 1;
 
 for processor in df["Processor"].unique():
     test1=df["Processor"] == processor;
 
-    for compilation in df["Compilation"].unique():
-        test2=df["Compilation"] == compilation;
-        
-        for compiler in df["Compiler"].unique():
-            test3=df["Compiler"] == compiler;
+    for compiler in df["Compiler"].unique():
+        test3=df["Compiler"] == compiler;
+    
+        i = 0;
+        for compilation in df["Compilation"].unique():
+            test2=df["Compilation"] == compilation;
 
             X = [];
             Y = [];
@@ -36,7 +41,20 @@ for processor in df["Processor"].unique():
                     Y.append(temp_y);
 
             if len(X) and len(Y):
-                plt.plot(X, Y, label=processor + " (compiler: " + compiler + ", compilation: " + compilation + ")");
+                
+                marker='x';
+                if i == 1:
+                    marker = '+';
+                
+                if compilation == "Release":
+                    plt.plot(X, Y, color=colours[colour_id], label=processor + " (compiler: " + compiler + ")");
+                    plt.scatter(X, Y, color=colours[colour_id], marker=marker);
+                else:
+                    plt.plot(X, Y, color=colours[colour_id], marker=marker);
+            i += 1;
+        
+        if len(df[test1 & test3]) > 0:
+            colour_id += 1;
 
 
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05),

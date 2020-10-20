@@ -27,31 +27,31 @@ AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,16,,g++ 7.5.0,Debug
 AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,8,,g++ 7.5.0,Debug
 AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,4,,g++ 7.5.0,Debug
 AMD FX(tm)-8350 Eight-Core Processor @ 4.00GHz,0,,g++ 7.5.0,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,45.49,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,44.73,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,63.46,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,91.76,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,178.03,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,344.55,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,1309.66,g++ 4.8.5,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,,g++ 4.8.5,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,,icc 19.1.2.254,Release
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,icc 19.1.2.254,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,icc 19.1.2.254,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,icc 19.1.2.254,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,icc 19.1.2.254,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,icc 19.1.2.254,Debug
-Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,icc 19.1.2.254,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,45,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,45,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,63,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,92,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,178,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,345,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,1310,g++ 4.8.5,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,1,,g++ (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39),Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,48,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,46,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,67,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,96,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,191,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,358,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,1,1396,icc (ICC) 19.1.2.254 20200623,Release
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,80,242,icc (ICC) 19.1.2.254 20200623,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,234,icc (ICC) 19.1.2.254 20200623,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,349,icc (ICC) 19.1.2.254 20200623,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,509,icc (ICC) 19.1.2.254 20200623,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,1013,icc (ICC) 19.1.2.254 20200623,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,1968,icc (ICC) 19.1.2.254 20200623,Debug
 Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,0,,icc 19.1.2.254,Debug
