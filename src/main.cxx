@@ -129,8 +129,8 @@ void getBBox(const vector<TriangleMesh>& aMeshSet,
 //******************************************************************************
 //  Constant global variables
 //******************************************************************************
-const unsigned int g_image_width = 2048;
-const unsigned int g_image_height = 2048;
+const unsigned int g_image_width = 128;
+const unsigned int g_image_height = 128;
 
 const Vec3 g_black(0, 0, 0);
 const Vec3 g_white(1, 1, 1);
@@ -195,6 +195,7 @@ int main(int argc, char** argv)
 				// Process every row
 				float inf = std::numeric_limits<float>::infinity();
 				std::vector<float> z_buffer(output_image.getWidth() * output_image.getHeight(), inf);
+
 				for (int row = 0; row < output_image.getHeight(); ++row)
 				{
 						// Process every column
@@ -208,6 +209,9 @@ int main(int argc, char** argv)
 								direction.normalise();
 								Ray ray(origin, direction);
 
+                                const TriangleMesh* p_intersected_object = 0;
+                                const Triangle* p_intersected_triangle = 0;
+                                
 								// Process every mesh
 								for (std::vector<TriangleMesh>::const_iterator mesh_ite = p_mesh_set.begin();
 										mesh_ite != p_mesh_set.end();
@@ -238,86 +242,98 @@ int main(int argc, char** argv)
 																if (z_buffer[row * output_image.getWidth() + col] > t)
 																{
 																		z_buffer[row * output_image.getWidth() + col] = t;
-																		Vec3 colour = applyShading(light, material, triangle.getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
+																		
+										                                p_intersected_object = &(*mesh_ite);
+                                                                        p_intersected_triangle = &triangle;
+                                                                }
 
-																		unsigned char r, g, b;
-
-																		const Image& texture = mesh_ite->getTexture();
-
-																		// Use texturing
-																		if (texture.getWidth() * texture.getHeight())
-																		{
-																				// Get the position of the intersection
-																				Vec3 P = origin + t * direction;
-
-																				// See https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/barycentric-coordinates
-																				Vec3 A = triangle.getP1();
-																				Vec3 B = triangle.getP2();
-																				Vec3 C = triangle.getP3();
-
-																				Triangle ABC(A, B, C);
-																				Triangle ABP(A, B, P);
-																				Triangle BCP(B, C, P);
-																				Triangle CAP(C, A, P);
-
-																				float area_ABC = ABC.getArea();
-																				float u = CAP.getArea() / area_ABC;
-																				float v = ABP.getArea() / area_ABC;
-																				float w = BCP.getArea() / area_ABC;
-
-																				// Getthe texel cooredinate
-																				Vec3 texel_coord(w * triangle.getTextCoord1() + u * triangle.getTextCoord2() + v * triangle.getTextCoord3());
-
-																				unsigned char texel_r;
-																				unsigned char texel_g;
-																				unsigned char texel_b;
-
-																				// Retrieve the pixel value from the texture
-																				texture.getPixel(texel_coord[0] * (texture.getWidth() - 1),
-																						texel_coord[1] * (texture.getHeight() - 1),
-																						texel_r, texel_g, texel_b);
-
-																				colour[0] *= texel_r;
-																				colour[1] *= texel_g;
-																				colour[2] *= texel_b;
-
-																				// Clamp the value to the range 0 to 255
-																				if (colour[0] < 0) r = 0;
-																				else if (colour[0] > 255) r = 255;
-																				else r = int(colour[0]);
-
-																				if (colour[1] < 0) g = 0;
-																				else if (colour[1] > 255) g = 255;
-																				else g = int(colour[1]);
-
-																				if (colour[2] < 0) b = 0;
-																				else if (colour[2] > 255) b = 255;
-																				else b = int(colour[2]);
-																		}
-																		else
-																		{
-																				// Convert from float to UCHAR and
-																				// clamp the value to the range 0 to 255
-																				if (255.0 * colour[0] < 0) r = 0;
-																				else if (255.0 * colour[0] > 255) r = 255;
-																				else r = int(255.0 * colour[0]);
-
-																				if (255.0 * colour[1] < 0) g = 0;
-																				else if (255.0 * colour[1] > 255) g = 255;
-																				else g = int(255.0 * colour[1]);
-
-																				if (255.0 * colour[2] < 0) b = 0;
-																				else if (255.0 * colour[2] > 255) b = 255;
-																				else b = int(255.0 * colour[2]);
-																		}
-
-																		// Update the pixel value
-																		output_image.setPixel(col, row, r, g, b);
-																}
 														}
 												}
 										}
 								}
+								
+								// An interesection was found
+								if (p_intersected_object && p_intersected_triangle)
+								{
+    									float t = z_buffer[row * output_image.getWidth() + col];
+										Vec3 colour = applyShading(light, material, p_intersected_triangle->getNormal(), ray.getOrigin() + t * ray.getDirection(), ray.getOrigin());
+
+										unsigned char r, g, b;
+
+										const Image& texture = p_intersected_object->getTexture();
+
+										// Use texturing
+										if (texture.getWidth() * texture.getHeight())
+										{
+												// Get the position of the intersection
+
+												Vec3 P = origin + t * direction;
+
+												// See https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/barycentric-coordinates
+												Vec3 A = p_intersected_triangle->getP1();
+												Vec3 B = p_intersected_triangle->getP2();
+												Vec3 C = p_intersected_triangle->getP3();
+
+												Triangle ABC(A, B, C);
+												Triangle ABP(A, B, P);
+												Triangle BCP(B, C, P);
+												Triangle CAP(C, A, P);
+
+												float area_ABC = ABC.getArea();
+												float u = CAP.getArea() / area_ABC;
+												float v = ABP.getArea() / area_ABC;
+												float w = BCP.getArea() / area_ABC;
+
+												// Getthe texel cooredinate
+												Vec3 texel_coord(w * p_intersected_triangle->getTextCoord1() + u * p_intersected_triangle->getTextCoord2() + v * p_intersected_triangle->getTextCoord3());
+
+												unsigned char texel_r;
+												unsigned char texel_g;
+												unsigned char texel_b;
+
+												// Retrieve the pixel value from the texture
+												texture.getPixel(texel_coord[0] * (texture.getWidth() - 1),
+														texel_coord[1] * (texture.getHeight() - 1),
+														texel_r, texel_g, texel_b);
+
+												colour[0] *= texel_r;
+												colour[1] *= texel_g;
+												colour[2] *= texel_b;
+
+												// Clamp the value to the range 0 to 255
+												if (colour[0] < 0) r = 0;
+												else if (colour[0] > 255) r = 255;
+												else r = int(colour[0]);
+
+												if (colour[1] < 0) g = 0;
+												else if (colour[1] > 255) g = 255;
+												else g = int(colour[1]);
+
+												if (colour[2] < 0) b = 0;
+												else if (colour[2] > 255) b = 255;
+												else b = int(colour[2]);
+										}
+										else
+										{
+												// Convert from float to UCHAR and
+												// clamp the value to the range 0 to 255
+												if (255.0 * colour[0] < 0) r = 0;
+												else if (255.0 * colour[0] > 255) r = 255;
+												else r = int(255.0 * colour[0]);
+
+												if (255.0 * colour[1] < 0) g = 0;
+												else if (255.0 * colour[1] > 255) g = 255;
+												else g = int(255.0 * colour[1]);
+
+												if (255.0 * colour[2] < 0) b = 0;
+												else if (255.0 * colour[2] > 255) b = 255;
+												else b = int(255.0 * colour[2]);
+										}
+
+										// Update the pixel value
+										output_image.setPixel(col, row, r, g, b);
+								}
+								
 						}
 				}
 
