@@ -214,7 +214,7 @@ int main(int argc, char** argv)
 
                                 const TriangleMesh* p_intersected_object = 0;
                                 const Triangle* p_intersected_triangle = 0;
-                                
+
 								// Process every mesh
 								for (std::vector<TriangleMesh>::const_iterator mesh_ite = p_mesh_set.begin();
 										mesh_ite != p_mesh_set.end();
@@ -243,7 +243,7 @@ int main(int argc, char** argv)
 																if (z_buffer[row * output_image.getWidth() + col] > t)
 																{
 																		z_buffer[row * output_image.getWidth() + col] = t;
-																		
+
 										                                p_intersected_object = &(*mesh_ite);
                                                                         p_intersected_triangle = &triangle;
                                                                 }
@@ -252,7 +252,7 @@ int main(int argc, char** argv)
 												}
 										}
 								}
-								
+
 								// An interesection was found
 								if (p_intersected_object && p_intersected_triangle)
 								{
@@ -269,9 +269,9 @@ int main(int argc, char** argv)
 								        Vec3 shadow_ray_direction = light.getPosition() - point_hit;
 								        shadow_ray_direction.normalise();
 								        Ray shadow_ray(point_hit, shadow_ray_direction);
-                                        
-                                        bool is_point_in_shadow = false; 
-                                        
+
+                                        bool is_point_in_shadow = false;
+
         								// Process every mesh
 								        for (std::vector<TriangleMesh>::const_iterator mesh_ite = p_mesh_set.begin();
 										        mesh_ite != p_mesh_set.end();
@@ -292,14 +292,13 @@ int main(int argc, char** argv)
 														        bool intersection = shadow_ray.intersect(triangle, t);
 														        if (intersection && t > 0.0000001)
 														        {
-            														cout << t << endl;
                                                                     is_point_in_shadow = true; 
-                                                                    break; 
-                                                                } 
+                                                                    break;
+                                                                }
                                                         }
                                                 }
-                                        } 
-                                        
+                                        }
+
                                         // Apply soft shadows
                                         if (is_point_in_shadow)
                                         {
@@ -307,7 +306,7 @@ int main(int argc, char** argv)
 									            colour[1] *= 0.25;
 									            colour[2] *= 0.25;
                                         }
-                                        
+
 										const Image& texture = p_intersected_object->getTexture();
 
 								        // Use texturing
@@ -381,7 +380,7 @@ int main(int argc, char** argv)
 										// Update the pixel value
 										output_image.setPixel(col, row, r, g, b);
 								}
-								
+
 						}
 				}
 
