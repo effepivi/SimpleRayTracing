@@ -11,7 +11,7 @@ subtitle: A Simple ray tracer to parallelise using PThread, OpenMP, MPI and CUDA
 
 A simple ray-tracer used as an example of application for my HPC module. The code was executed on two of my desktop PCs, with two different CPUs, using GNU/Linux openSUSE Leap 15.2.
 The same code was also executed on [Supercomputing Wales](https://www.supercomputing.wales/) with two different compilers (g++ 4.8.5 released in 2015 and icc 19.1.2.254 released in 2020).
-The code produces an $2048 \times 2048$ image as follows:
+The code produces an 2048x2048 image as follows:
 
 ![Rendered image.](test.jpg)
 
@@ -29,20 +29,20 @@ The code produces an $2048 \times 2048$ image as follows:
 
 | Processor                                      | Release date | Parallelisation     | Release | Debug | Compiler       |
 |------------------------------------------------|--------------|---------------------|---------|-------|----------------|
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 80.0 | 85 | 396  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 40.0 | 85 | 406  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 24.0 | 124 | 627  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 16.0 | 179 | 918  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 8.0 | 352 | 1819  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 4.0 | 657 |  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 1.0 | 2518 |  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 80.0 | 86 | 441  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 40.0 | 87 | 452  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 24.0 | 143 | 680  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 16.0 | 185 | 995  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 8.0 | 365 | 1959  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 4.0 | 702 | 3659  |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | 1.0 | 2639 |  |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 85 | 396  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 85 | 406  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 124 | 627  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 179 | 918  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 352 | 1819  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 657 |  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2518 |  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 86 | 441  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 87 | 452  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 143 | 680  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 185 | 995  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 365 | 1959  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc (ICC) 19.1.2.254 20200623 |
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
