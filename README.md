@@ -43,6 +43,7 @@ The code produces an 2048x2048 image as follows:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 365 | 1959  | icc (ICC) 19.1.2.254 20200623 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc (ICC) 19.1.2.254 20200623 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 |  | icc (ICC) 19.1.2.254 20200623 |
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
