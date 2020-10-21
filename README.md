@@ -11,6 +11,9 @@ subtitle: A Simple ray tracer to parallelise using PThread, OpenMP, MPI and CUDA
 
 A simple ray-tracer used as an example of application for my HPC module. The code was executed on two of my desktop PCs, with two different CPUs, using GNU/Linux openSUSE Leap 15.2.
 The same code was also executed on [Supercomputing Wales](https://www.supercomputing.wales/) with two different compilers (g++ 4.8.5 released in 2015 and icc 19.1.2.254 released in 2020).
+The code produces an $2048 \times 2048$ image as follows:
+
+![Rendered image.](test.jpg)
 
 | Model name:        | AMD FX(tm)-8350 Eight-Core Processor | Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz               |
 |--------------------|--------------------------------------|------------------------------------------|--------------------------------------------------------|
