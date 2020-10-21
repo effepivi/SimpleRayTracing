@@ -45,12 +45,13 @@ The code produces an 2048x2048 image as follows:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 |  | icc 19.1.2.254 |
-| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 80 threads | 585 |  | gcc (SUSE Linux) 7.5.0 |
-| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 40 threads | 586 |  | gcc (SUSE Linux) 7.5.0 |
-| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 24 threads | 583 |  | gcc (SUSE Linux) 7.5.0 |
-| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 16 threads | 587 |  | gcc (SUSE Linux) 7.5.0 |
-| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 8 threads | 606 |  | gcc (SUSE Linux) 7.5.0 |
-| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 4 threads | 1050 |  | gcc (SUSE Linux) 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 80 threads | 585 |  | gcc 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 40 threads | 586 |  | gcc 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 24 threads | 583 |  | gcc 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 16 threads | 587 |  | gcc 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 8 threads | 606 |  | gcc 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 4 threads | 1050 |  | gcc 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 1 thread | 3981 |  | gcc 7.5.0 |
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
