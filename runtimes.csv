@@ -26,3 +26,11 @@ Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,40,406.05,g++ 4.8.5,Debug
 Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,24,627.4,g++ 4.8.5,Debug
 Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,16,918.04,g++ 4.8.5,Debug
 Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,8,1818.98,g++ 4.8.5,Debug
+Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz,4,3478.93,g++ 4.8.5,Debug
+AMD FX(tm)-8350 Eight-Core Processor,80,584.52,gcc (SUSE Linux) 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor,40,586.36,gcc (SUSE Linux) 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor,24,582.72,gcc (SUSE Linux) 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor,16,586.68,gcc (SUSE Linux) 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor,8,606.17,gcc (SUSE Linux) 7.5.0,Release
+AMD FX(tm)-8350 Eight-Core Processor,4,1049.61,gcc (SUSE Linux) 7.5.0,Release
+

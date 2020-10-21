@@ -34,7 +34,7 @@ The code produces an 2048x2048 image as follows:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 124 | 627  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 179 | 918  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 352 | 1819  | g++ 4.8.5 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 657 |  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 657 | 3479  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2518 |  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2692 |  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 86 | 441  | icc 19.1.2.254 |
@@ -45,6 +45,12 @@ The code produces an 2048x2048 image as follows:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 |  | icc 19.1.2.254 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 80 threads | 585 |  | gcc (SUSE Linux) 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 40 threads | 586 |  | gcc (SUSE Linux) 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 24 threads | 583 |  | gcc (SUSE Linux) 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 16 threads | 587 |  | gcc (SUSE Linux) 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 8 threads | 606 |  | gcc (SUSE Linux) 7.5.0 |
+| AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 4 threads | 1050 |  | gcc (SUSE Linux) 7.5.0 |
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
