@@ -29,21 +29,21 @@ The code produces an 2048x2048 image as follows:
 
 | Processor                                      | Release date | Parallelisation     | Release | Debug | Compiler       |
 |------------------------------------------------|--------------|---------------------|---------|-------|----------------|
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 85 | 396  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 85 | 406  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 124 | 627  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 179 | 918  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 352 | 1819  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 657 |  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2518 |  | gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-39) |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 86 | 441  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 87 | 452  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 143 | 680  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 185 | 995  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 365 | 1959  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc (ICC) 19.1.2.254 20200623 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 |  | icc (ICC) 19.1.2.254 20200623 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 85 | 396  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 85 | 406  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 124 | 627  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 179 | 918  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 352 | 1819  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 657 |  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2518 |  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 86 | 441  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 87 | 452  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 143 | 680  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 185 | 995  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 365 | 1959  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 |  | icc 19.1.2.254 |
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
