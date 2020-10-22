@@ -64,3 +64,5 @@ The code produces an 2048x2048 image as follows:
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
 ![Plot of the runtimes](runtimes.png)
+
+![Plot of the speedup](speedup.png)

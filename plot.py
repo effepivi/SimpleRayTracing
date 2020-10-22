@@ -115,4 +115,69 @@ plt.ylabel('Runtime in seconds');
 plt.savefig('runtimes.pdf');
 plt.savefig('runtimes.png');
 
+
+fig = plt.figure(figsize=(11, 6));
+ax = plt.subplot(111);
+
+colour_id = 1;
+
+test4=df["Number of threads"] == 0;
+for processor in df["Processor"].unique():
+    test1=df["Processor"] == processor;
+
+    for compiler in df["Compiler"].unique():
+        test3=df["Compiler"] == compiler;
+
+        i = 0;
+        for compilation in df["Compilation"].unique():
+            test2=df["Compilation"] == compilation;
+
+            X = [];
+            Y = [];
+
+            x = df[test1 & test2 & test3]["Number of threads"];
+            y = df[test1 & test2 & test3]["Runtime in seconds"];
+
+            reference_set = df[test1 & test2 & test3 & test4]["Runtime in seconds"];
+
+            if len(reference_set):
+
+
+                for ref in reference_set:
+                    reference = ref;
+
+                for temp_x, temp_y in zip(x, y):
+                    if not math.isnan(temp_y):
+                        X.append(temp_x);
+                        Y.append(reference / temp_y);
+
+                if len(X) and len(Y):
+
+                    marker='x';
+                    if i == 1:
+                        marker = '+';
+
+                    if compilation == "Release":
+                        plt.plot(X, Y, color=colours[colour_id], label=processor + " (compiler: " + compiler + ")");
+                        plt.scatter(X, Y, color=colours[colour_id], marker=marker);
+            i += 1;
+
+        if len(df[test1 & test3]) > 0:
+            colour_id += 1;
+
+plt.plot([0, 40], [1, 40], color=colours[colour_id], label="Theoretical speedup");
+
+
+ax.legend(loc='lower right',
+          ncol=1, fancybox=True, shadow=True);
+
+plt.xticks(df["Number of threads"].unique());
+
+plt.xlabel('Number of threads');
+plt.ylabel('Speedup');
+
+plt.savefig('speedup.pdf');
+plt.savefig('speedup.png');
+
+
 plt.show();
