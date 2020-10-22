@@ -34,3 +34,11 @@ AMD FX(tm)-8350 Eight-Core Processor,16,586.68,gcc 7.5.0,Release
 AMD FX(tm)-8350 Eight-Core Processor,8,606.17,gcc 7.5.0,Release
 AMD FX(tm)-8350 Eight-Core Processor,4,1049.61,gcc 7.5.0,Release
 AMD FX(tm)-8350 Eight-Core Processor,1,3981.33,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,80,199.38,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,40,204.18,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,24,207.92,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,16,209.42,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,8,287.18,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,4,515.41,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,1,1910.71,gcc 7.5.0,Release
+Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz,0,1883.88,gcc 7.5.0,Release

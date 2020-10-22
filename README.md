@@ -52,6 +52,14 @@ The code produces an 2048x2048 image as follows:
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 8 threads | 606 |  | gcc 7.5.0 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 4 threads | 1050 |  | gcc 7.5.0 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 1 thread | 3981 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 80 threads | 199 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 40 threads | 204 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 24 threads | 208 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 16 threads | 209 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 8 threads | 287 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 4 threads | 515 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 1 thread | 1911 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | none | 1884 |  | gcc 7.5.0 |
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
