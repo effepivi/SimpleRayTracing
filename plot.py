@@ -28,8 +28,8 @@ for processor in df["Processor"].unique():
             test_release=df["Compilation"] == "Release";
             test_debug=df["Compilation"] == "Debug";
 
-            runtime_release = df[test1 & test2 & test3 & test_release]["Runtime in seconds"];
-            runtime_debug   = df[test1 & test2 & test3 & test_debug]["Runtime in seconds"];
+            runtime_release = df[test1 & test2 & test3 & test_release]["Runtime in seconds"] / 60;
+            runtime_debug   = df[test1 & test2 & test3 & test_debug]["Runtime in seconds"] / 60;
 
             i = [];
             for temp in runtime_release:
@@ -85,7 +85,7 @@ for processor in df["Processor"].unique():
             for temp_x, temp_y in zip(x, y):
                 if not math.isnan(temp_y):
                     X.append(temp_x);
-                    Y.append(temp_y);
+                    Y.append(temp_y / 60);
 
             if len(X) and len(Y):
 
@@ -110,7 +110,7 @@ ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05),
 plt.xticks(df["Number of threads"].unique());
 
 plt.xlabel('Number of threads');
-plt.ylabel('Runtime in seconds');
+plt.ylabel('Runtime in minutes');
 
 plt.savefig('runtimes.pdf');
 plt.savefig('runtimes.png');
