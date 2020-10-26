@@ -1,4 +1,4 @@
----
+    ---
 author: Dr Franck P. Vidal
 institute: School of Computer Science and Electronic Engineering, Bangor University, UK
 title: ICE4131 -- High Performance Computing
@@ -27,6 +27,7 @@ The code produces an 2048x2048 image as follows:
 | NUMA node0 CPU(s): | 0-7                                  | 0-15                                     | 0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38 |
 | NUMA node1 CPU(s): | none                                 | none                                     | 1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39 |
 
+
 | Processor                                      | Release date | Parallelisation     | Release | Debug | Compiler       |
 |------------------------------------------------|--------------|---------------------|---------|-------|----------------|
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 85 | 396  | g++ 4.8.5 |
@@ -35,8 +36,8 @@ The code produces an 2048x2048 image as follows:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 16 threads | 179 | 918  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 352 | 1819  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 657 | 3479  | g++ 4.8.5 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2518 |  | g++ 4.8.5 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2692 |  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2518 | 12977  | g++ 4.8.5 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2692 | 13040  | g++ 4.8.5 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 80 threads | 86 | 441  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 40 threads | 87 | 452  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 24 threads | 143 | 680  | icc 19.1.2.254 |
@@ -44,7 +45,7 @@ The code produces an 2048x2048 image as follows:
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 8 threads | 365 | 1959  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 4 threads | 702 | 3659  | icc 19.1.2.254 |
 | Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | OpenMP with 1 thread | 2639 |  | icc 19.1.2.254 |
-| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 |  | icc 19.1.2.254 |
+| Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz | Q1 2018 | none | 2683 | 14129  | icc 19.1.2.254 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 80 threads | 585 |  | gcc 7.5.0 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 40 threads | 586 |  | gcc 7.5.0 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 24 threads | 583 |  | gcc 7.5.0 |
@@ -52,14 +53,17 @@ The code produces an 2048x2048 image as follows:
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 8 threads | 606 |  | gcc 7.5.0 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 4 threads | 1050 |  | gcc 7.5.0 |
 | AMD FX(tm)-8350 Eight-Core Processor | Q1 2018 | OpenMP with 1 thread | 3981 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 80 threads | 199 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 40 threads | 204 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 24 threads | 208 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 80 threads | 199 | 1067  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 40 threads | 204 | 1070  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 24 threads | 208 | 1077  | gcc 7.5.0 |
 | Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 16 threads | 209 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 8 threads | 287 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 4 threads | 515 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 1 thread | 1911 |  | gcc 7.5.0 |
-| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | none | 1884 |  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 8 threads | 287 | 1371  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 4 threads | 515 | 2554  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | OpenMP with 1 thread | 1911 | 9454  | gcc 7.5.0 |
+| Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz | Q4 2018 | none | 1884 | 9322  | gcc 7.5.0 |
+
+
+
 
 In the plot below, `x` depicts the runtime when the program is compiled in Release mode, and `+` in Debug mode.
 
