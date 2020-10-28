@@ -165,6 +165,17 @@ int main(int argc, char** argv)
 						image_height = stoi(argv[2]);
 				}
 
+				// Update the background colour if needed
+				unsigned char r = 128;
+				unsigned char g = 128;
+				unsigned char b = 128;
+				if (argc == 6)
+				{
+						r = stoi(argv[3]);
+						g = stoi(argv[4]);
+						b = stoi(argv[5]);
+				}
+
 				// Load the polygon meshes
 				vector<TriangleMesh> p_mesh_set;
 				loadMeshes("./dragon.ply", p_mesh_set);
@@ -193,7 +204,7 @@ int main(int argc, char** argv)
 				Vec3 direction((detector_position - origin));
 				direction.normalize();
 
-				Image output_image(image_width, image_height, 128, 128, 128);
+				Image output_image(image_width, image_height, r, g, b);
 
         Vec3 light_position = origin + up * 100.0;
         Vec3 light_direction = bbox_centre - light_position;
