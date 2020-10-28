@@ -109,6 +109,13 @@ using namespace std;
 //******************************************************************************
 //  Function declarations
 //******************************************************************************
+void showUsage(const std::string& aProgramName);
+
+void processCmd(int argc, char** argv,
+                string& aFileName,
+                unsigned int& aWidth, unsigned int& aHeight,
+                unsigned char& r, unsigned char& g, unsigned char& b);
+
 Vec3 applyShading(const Light& aLight,
                   const Material& aMaterial,
                   const Vec3& aNormalVector,
@@ -156,26 +163,23 @@ int main(int argc, char** argv)
 {
     try
     {
+        // output file
+        string output_file_name = "test.jpg";
+        
         // Update the image size if needed
         unsigned int image_width = g_default_image_width;
         unsigned int image_height = g_default_image_height;
-        if (argc >= 3)
-        {
-            image_width = stoi(argv[1]);
-            image_height = stoi(argv[2]);
-        }
 
         // Update the background colour if needed
         unsigned char r = 128;
         unsigned char g = 128;
         unsigned char b = 128;
-        if (argc == 6)
-        {
-            r = stoi(argv[3]);
-            g = stoi(argv[4]);
-            b = stoi(argv[5]);
-        }
 
+        processCmd(argc, argv,
+                   output_file_name,
+                   image_width, image_height,
+                   r, g, b);
+                           
         // Load the polygon meshes
         vector<TriangleMesh> p_mesh_set;
         loadMeshes("./dragon.ply", p_mesh_set);
@@ -221,8 +225,7 @@ int main(int argc, char** argv)
         renderLoop(output_image, p_mesh_set, detector_position, origin, up, right, light);
 
         // Save the image
-        output_image.saveJPEGFile("test.jpg");
-        output_image.saveTGAFile("test.tga");
+        output_image.saveJPEGFile(output_file_name);
     }
     // Catch exceptions and error messages
     catch (const std::exception& e)
@@ -248,6 +251,121 @@ int main(int argc, char** argv)
 //******************************************************************************
 //  Function definitions
 //******************************************************************************
+
+
+//---------------------------------------------
+void showUsage(const std::string& aProgramName)
+//---------------------------------------------
+{
+    std::cerr << "Usage: " << aProgramName << " <option(s)>" << endl <<
+        "Options:" << endl <<
+        "\t-h,--help\t\t\tShow this help message" << endl <<
+        "\t-s,--size IMG_WIDTH IMG_HEIGHT\tSpecify the image size in number of pixels (default values: 2048 2048)" << endl << 
+        "\t-b,--background R G B\t\tSpecify the background colour in RGB, acceptable values are between 0 and 255 (inclusive) (default values: 128 128 128)" << endl << 
+        "\t-j,--jpeg FILENAME\t\tName of the JPEG file (default value: test.jpg)" << endl << 
+        std::endl;
+}
+
+
+//-------------------------------------------------------------------
+void processCmd(int argc, char** argv,
+                string& aFileName,
+                unsigned int& aWidth, unsigned int& aHeight,
+                unsigned char& r, unsigned char& g, unsigned char& b)
+//-------------------------------------------------------------------
+{
+    // Process the command line
+    int i = 1;
+    while (i < argc)
+    {
+        std::string arg = argv[i];
+        
+        if (arg == "-h" || arg == "--help")
+        {
+            showUsage(argv[0]);
+            exit(EXIT_SUCCESS);
+        }
+        else if (arg == "-s" || arg == "--size")
+        {
+            ++i;
+            if (i < argc)
+            {
+                aWidth = stoi(argv[i]);
+            }
+            else
+            {
+                showUsage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+            
+            ++i;
+            if (i < argc)
+            {
+                aHeight = stoi(argv[i]);
+            }
+            else
+            {
+                showUsage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if (arg == "-b" || arg == "--background")
+        {
+            ++i;
+            if (i < argc)
+            {
+                r = stoi(argv[i]);
+            }
+            else
+            {
+                showUsage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+
+            ++i;
+            if (i < argc)
+            {
+                g = stoi(argv[i]);
+            }
+            else
+            {
+                showUsage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+            
+            ++i;
+            if (i < argc)
+            {
+                b = stoi(argv[i]);
+            }
+            else
+            {
+                showUsage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if (arg == "-j" || arg == "--jpeg")
+        {                
+            ++i;
+            if (i < argc)
+            {
+                aFileName = argv[i];
+            }
+            else
+            {
+                showUsage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+        }
+        else
+        {
+            showUsage(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        ++i;
+    }
+}
+
 
 //------------------------------------------
 Vec3 applyShading(const Light& aLight,
