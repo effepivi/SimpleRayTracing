@@ -25,8 +25,8 @@ COMPILER=`gcc --version |head -1`
 TEMP=`lscpu|grep "Model name:"`
 IFS=':' read -ra CPU_MODEL <<< "$TEMP"
 
-width=128
-height=128
+width=2048
+height=2048
 
 if [ ! -f timing.csv ];
 then
