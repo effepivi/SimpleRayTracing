@@ -17,7 +17,7 @@ void showUsage(const std::string& aProgramName)
 void processCmd(int argc, char** argv,
                 string& aFileName,
                 unsigned int& aWidth, unsigned int& aHeight,
-                unsigned char& r, unsigned char& g, unsigned char& b
+                unsigned char& r, unsigned char& g, unsigned char& b,
                 unsigned int& aNumberOfThreads)
 //-------------------------------------------------------------------
 {
