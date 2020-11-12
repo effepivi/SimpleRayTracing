@@ -33,7 +33,7 @@ then
     echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
 fi
 
-/usr/bin/time --format='%e' ./bin-release-gcc//main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp
+/usr/bin/time --format='%e' ./bin/main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp
 
 RUNTIME=`cat temp`
 

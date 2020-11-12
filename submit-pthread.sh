@@ -52,7 +52,7 @@ do
 
 	echo "echo Run ./main-pthreads with $thread_number threads." >> submit-pthread-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin-release-gcc/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-$thread_number" >> submit-pthread-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-$thread_number" >> submit-pthread-$thread_number.sh
 
 	echo "RUNTIME=\`cat temp-$thread_number\`" >> submit-pthread-$thread_number.sh
 
