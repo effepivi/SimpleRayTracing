@@ -54,7 +54,7 @@ do
 
   echo "export OMP_NUM_THREADS=$thread_number" >> submit-omp-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin-release-gcc/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-$thread_number" >> submit-omp-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-$thread_number" >> submit-omp-$thread_number.sh
 
 	echo "RUNTIME=\`cat temp-$thread_number\`" >> submit-omp-$thread_number.sh
 

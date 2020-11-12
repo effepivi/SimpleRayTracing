@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=1          # Number of tasks per node
 #SBATCH --cpus-per-task=1            # Number of cores per task
 #SBATCH --mem=600mb                  # Total memory limit
-#SBATCH --time=10:00:00              # Time limit hrs:min:sec
+#SBATCH --time=00:50:00              # Time limit hrs:min:sec
 
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
@@ -33,10 +33,9 @@ then
     echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
 fi
 
-/usr/bin/time --format='%e' ./main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp
+/usr/bin/time --format='%e' ./bin-release-gcc//main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp
 
 RUNTIME=`cat temp`
 
-echo ${CPU_MODEL[1]},None,0,1,$COMPILER,${width}x$height,$RUNTIME >> timing.csv
+echo ${CPU_MODEL[1]},None,0,1,$COMPILER,${width}x$height,$RUNTIME >> timing-serial.csv
 rm temp
-
