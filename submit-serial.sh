@@ -33,9 +33,9 @@ then
     echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
 fi
 
-/usr/bin/time --format='%e' ./bin/main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp
+/usr/bin/time --format='%e' ./bin/main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp-serial
 
-RUNTIME=`cat temp`
+RUNTIME=`cat temp-serial`
 
 echo ${CPU_MODEL[1]},None,0,1,$COMPILER,${width}x$height,$RUNTIME >> timing-serial.csv
-rm temp
+#rm temp-serial

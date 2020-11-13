@@ -54,12 +54,12 @@ do
 
   echo "export OMP_NUM_THREADS=$thread_number" >> submit-omp-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-$thread_number" >> submit-omp-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-omp-$thread_number" >> submit-omp-$thread_number.sh
 
-	echo "RUNTIME=\`cat temp-$thread_number\`" >> submit-omp-$thread_number.sh
+	echo "RUNTIME=\`cat temp-omp-$thread_number\`" >> submit-omp-$thread_number.sh
 
   echo "echo \${CPU_MODEL[1]},omp,\$thread_number,1,\$COMPILER,\${width}x\$height,\$RUNTIME >> timing-omp-$thread_number.csv" >> submit-omp-$thread_number.sh
-  echo "rm temp-$thread_number" >> submit-omp-$thread_number.sh
+  echo "#rm temp-omp-$thread_number" >> submit-omp-$thread_number.sh
 	chmod +x submit-omp-$thread_number.sh
 	sbatch submit-omp-$thread_number.sh
 done

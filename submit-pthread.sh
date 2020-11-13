@@ -52,12 +52,12 @@ do
 
 	echo "echo Run ./main-pthreads with $thread_number threads." >> submit-pthread-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-$thread_number" >> submit-pthread-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
 
-	echo "RUNTIME=\`cat temp-$thread_number\`" >> submit-pthread-$thread_number.sh
+	echo "RUNTIME=\`cat temp-pthread-$thread_number\`" >> submit-pthread-$thread_number.sh
 
   echo "echo \${CPU_MODEL[1]},Pthread,\$thread_number,1,\$COMPILER,\${width}x\$height,\$RUNTIME >> timing-pthread-$thread_number.csv" >> submit-pthread-$thread_number.sh
-  echo "rm temp-$thread_number" >> submit-pthread-$thread_number.sh
+  echo "#rm temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
 	chmod +x submit-pthread-$thread_number.sh
 	sbatch submit-pthread-$thread_number.sh
 done
