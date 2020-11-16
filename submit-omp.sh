@@ -3,6 +3,9 @@
 width=2048
 height=2048
 
+module purge > /dev/null 2>&1
+module load cmake mpi/intel
+
 for thread_number in 160 80 40 24 16 8 4 1
 do
 	echo "#!/usr/bin/env bash" > submit-omp-$thread_number.sh
@@ -31,9 +34,9 @@ do
 
 	# Clear the environment from any previously loaded modules
 	echo "module purge > /dev/null 2>&1" >> submit-omp-$thread_number.sh
-	echo "module load cmake" >> submit-omp-$thread_number.sh
+	echo "module load cmake mpi/intel" >> submit-omp-$thread_number.sh
 
-	echo "COMPILER=\"`gcc --version |head -1`\"" >> submit-omp-$thread_number.sh
+	echo "COMPILER=\"`icc --version |head -1`\"" >> submit-omp-$thread_number.sh
 
 	# Uncomment if your are using the intel compiler
 	#module load compiler/intel/2020/2 #compiler/gnu/9/2.0
@@ -47,7 +50,7 @@ do
 
 	if [ ! -f timing.csv ];
 	then
-		echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
+		echo "CPU,Parallelisation,Number of threads/processes per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
 	fi
 
 	echo "echo Run ./main-omp with $thread_number threads." >> submit-omp-$thread_number.sh

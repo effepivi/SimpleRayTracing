@@ -14,13 +14,13 @@
 
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
-module load cmake
+module load cmake mpi/intel
 
 COMPILER=`gcc --version |head -1`
 
 # Uncomment if your are using the intel compiler
 #module load compiler/intel/2020/2 #compiler/gnu/9/2.0
-#COMPILER=`icc --version |head -1`
+COMPILER=`icc --version |head -1`
 
 TEMP=`lscpu|grep "Model name:"`
 IFS=':' read -ra CPU_MODEL <<< "$TEMP"
@@ -30,7 +30,7 @@ height=2048
 
 if [ ! -f timing.csv ];
 then
-    echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
+    echo "CPU,Parallelisation,Number of threads/processes per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
 fi
 
 /usr/bin/time --format='%e' ./bin/main --size $width $height --jpeg serial-${width}x$height.jpg 2> temp-serial

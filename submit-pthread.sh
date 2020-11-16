@@ -3,6 +3,9 @@
 width=2048
 height=2048
 
+module purge > /dev/null
+module load cmake mpi/intel
+
 for thread_number in 160 80 40 24 16 8 4 1
 do
 	echo "#!/usr/bin/env bash" > submit-pthread-$thread_number.sh
@@ -31,13 +34,13 @@ do
 
 	# Clear the environment from any previously loaded modules
 	echo "module purge > /dev/null 2>&1" >> submit-pthread-$thread_number.sh
-	echo "module load cmake" >> submit-pthread-$thread_number.sh
+	echo "module load cmake mpi/intel" >> submit-pthread-$thread_number.sh
 
 	echo "COMPILER=\"`gcc --version |head -1`\"" >> submit-pthread-$thread_number.sh
 
 	# Uncomment if your are using the intel compiler
 	#module load compiler/intel/2020/2 #compiler/gnu/9/2.0
-	#COMPILER=`icc --version |head -1`
+    echo "COMPILER=\"`icc --version |head -1`\"" >> submit-pthread-$thread_number.sh
 
 	echo "TEMP=\`lscpu|grep \"Model name:\"\`" >> submit-pthread-$thread_number.sh
 	echo "IFS=':' read -ra CPU_MODEL <<< \"\$TEMP\"" >> submit-pthread-$thread_number.sh
@@ -56,8 +59,9 @@ do
 
 	echo "RUNTIME=\`cat temp-pthread-$thread_number\`" >> submit-pthread-$thread_number.sh
 
-  echo "echo \${CPU_MODEL[1]},Pthread,\$thread_number,1,\$COMPILER,\${width}x\$height,\$RUNTIME >> timing-pthread-$thread_number.csv" >> submit-pthread-$thread_number.sh
-  echo "#rm temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
+    echo "echo \${CPU_MODEL[1]},Pthread,\$thread_number,1,\$COMPILER,\${width}x\$height,\$RUNTIME >> timing-pthread-$thread_number.csv" >> submit-pthread-$thread_number.sh
+    echo "#rm temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
+
 	chmod +x submit-pthread-$thread_number.sh
 	sbatch submit-pthread-$thread_number.sh
 done
