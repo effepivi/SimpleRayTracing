@@ -9,13 +9,13 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-#matplotlib.use('Qt5Agg')
+matplotlib.use('PS')
 
 
 def printRawTable(df):
 
-    print("| Processor                                      | Release date | Parallelisation     | Compiler | Runtime in sec |")
-    print("|------------------------------------------------|--------------|---------------------|----------|----------------|")
+    print("| Processor                                      | Release date | Parallelisation     | Compiler | Runtime in sec | Runtime in min |")
+    print("|------------------------------------------------|--------------|---------------------|----------|----------------|----------------|")
     for processor in df["CPU"].unique():
         test_Processor=df["CPU"] == processor;
 
@@ -28,16 +28,16 @@ def printRawTable(df):
                 for nodes in np.sort(df[test_Processor & test_Compiler & test_Parallelisation]["Number of nodes"].unique()):
                     test_Nodes=df["Number of nodes"] == nodes;
 
-                    for thread_number in np.sort(df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes]["Number of threads per node"].unique()):
-                        test_thread_number=df["Number of threads per node"] == thread_number;
+                    for thread_number in np.sort(df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes]["Number of threads/processes per node"].unique()):
+                        test_thread_number=df["Number of threads/processes per node"] == thread_number;
 
                         runtime = df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes & test_thread_number]["Runtime in sec"]; # / 60;
 
                         #print(runtime)
                         i = [];
                         for temp in runtime:
-                            #i.append(round(temp));
-                            i.append(temp);
+                            #i.append(round(temp / 60)); # In minutes
+                            i.append(temp); # In seconds
 
                         if processor == "Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz":
                             release_date = "Q4 2018";
@@ -54,9 +54,9 @@ def printRawTable(df):
                             parallelisation_string += " with " + str(int(thread_number)) + " threads";
 
                         if nodes > 1:
-                            parallelisation_string += " on " + str(nodes) + " nodes";
+                            parallelisation_string += " on " + str(nodes) + " nodes, i.e. " + str(nodes * thread_number) + " processes in total";
 
-                        print("|", processor, "|", release_date, "|", parallelisation_string, " |", compiler, "|", i[0], "|");
+                        print("|", processor, "|", release_date, "|", parallelisation_string, " |", compiler, "|", i[0], "|", round(i[0] / 60), "|");
 
 
 def displayRuntime(df):
@@ -80,16 +80,14 @@ def displayRuntime(df):
                     X = [];
                     Y = [];
 
-                    for thread_number in np.sort(df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes]["Number of threads per node"].unique()):
-                        test_thread_number=df["Number of threads per node"] == thread_number;
+                    for thread_number in np.sort(df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes]["Number of threads/processes per node"].unique()):
+                        test_thread_number=df["Number of threads/processes per node"] == thread_number;
 
                         runtime = df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes & test_thread_number]["Runtime in sec"]; # / 60;
 
-                        #print(runtime)
-                        i = [];
                         for temp in runtime:
-                            #i.append(round(temp));
-                            Y.append(temp);
+                            Y.append(round(temp / 60)); # In minutes
+                            #Y.append(temp); # In seconds
                             X.append(thread_number);
 
                         parallelisation_string = parallelisation;
@@ -105,15 +103,17 @@ def displayRuntime(df):
                         plt.scatter(X, Y, color=colours[colour_id], marker=marker);
 
                         colour_id += 1;
+                        if colour_id == len(colours):
+                            colour_id = 0;
 
 
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05),
               ncol=1, fancybox=True, shadow=True);
 
-    plt.xticks(df["Number of threads per node"].unique());
+    plt.xticks(df["Number of threads/processes per node"].unique());
 
     plt.xlabel('Number of threads');
-    plt.ylabel('Runtime in seconds');
+    plt.ylabel('Runtime in minutes');
 
     plt.savefig('runtimes.pdf');
     plt.savefig('runtimes.png');
@@ -133,7 +133,7 @@ def displaySpeedup(df):
 
 
             test1 = df["Parallelisation"] == "None";
-            test2 = df["Number of threads per node"] == 0;
+            test2 = df["Number of threads/processes per node"] == 0;
             test3 = df["Number of nodes"] == 1;
             reference = df[test_Compiler & test_Processor & test1 & test2 & test3]["Runtime in sec"];
 
@@ -146,12 +146,11 @@ def displaySpeedup(df):
                     X = [];
                     Y = [];
 
-                    for thread_number in np.sort(df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes]["Number of threads per node"].unique()):
-                        test_thread_number=df["Number of threads per node"] == thread_number;
+                    for thread_number in np.sort(df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes]["Number of threads/processes per node"].unique()):
+                        test_thread_number=df["Number of threads/processes per node"] == thread_number;
 
-                        runtime = df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes & test_thread_number]["Runtime in sec"]; # / 60;
+                        runtime = df[test_Processor & test_Compiler & test_Parallelisation & test_Nodes & test_thread_number]["Runtime in sec"];
 
-                        #print(runtime)
                         i = [];
                         for temp in runtime:
                             Y.append(reference / temp);
@@ -166,10 +165,14 @@ def displaySpeedup(df):
 
                         marker='x';
 
+                        print(parallelisation_string, len(X), len(Y), thread_number);
                         plt.plot(X, Y, color=colours[colour_id], label=parallelisation_string);
                         plt.scatter(X, Y, color=colours[colour_id], marker=marker);
 
                         colour_id += 1;
+                        if colour_id >= len(colours):
+                            colour_id = 0;
+
 
 
     plt.plot([0, 160], [1, 160], color=colours[colour_id], label="Theoretical speedup");
@@ -178,9 +181,9 @@ def displaySpeedup(df):
     ax.legend(loc='upper left',
               ncol=1, fancybox=True, shadow=True);
 
-    plt.xticks(df["Number of threads per node"].unique());
+    plt.xticks(df["Number of threads/processes per node"].unique());
 
-    plt.xlabel('Number of threads per node');
+    plt.xlabel('Number of threads/processes per node');
     plt.ylabel('Speedup');
 
     plt.savefig('speedup.pdf');
@@ -190,8 +193,12 @@ def displaySpeedup(df):
 colours = list(mcolors.TABLEAU_COLORS);
 
 df = pd.read_csv("timing.csv");
+
+df = df.sort_values(by=['Parallelisation', 'Number of nodes', 'Number of threads/processes per node'])
+
+
 #printRawTable(df);
-displayRuntime(df);
+#displayRuntime(df);
 displaySpeedup(df);
 
-plt.show();
+#plt.show();
