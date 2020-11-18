@@ -6,7 +6,7 @@ height=2048
 module purge > /dev/null
 module load cmake mpi/intel
 
-for thread_number in 160 80 40 24 16 8 4 1
+for thread_number in 16 #160 80 40 24 16 8 4 1
 do
 	echo "#!/usr/bin/env bash" > submit-pthread-$thread_number.sh
 	echo "#" >> submit-pthread-$thread_number.sh
@@ -18,6 +18,7 @@ do
 	echo "#SBATCH --error ray_tracing-%j.err   #" >> submit-pthread-$thread_number.sh
 	echo "#SBATCH --nodes=1                    # Use one node" >> submit-pthread-$thread_number.sh
 	echo "#SBATCH --ntasks-per-node=1          # Number of tasks per node" >> submit-pthread-$thread_number.sh
+        echo "#SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU." >> submit-pthread-$thread_number.sh
 
  	if [ "$thread_number" -ge "40" ]
 	then
@@ -55,7 +56,7 @@ do
 
 	echo "echo Run ./main-pthreads with $thread_number threads." >> submit-pthread-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin-release-gcc/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
 
 	echo "RUNTIME=\`cat temp-pthread-$thread_number\`" >> submit-pthread-$thread_number.sh
 

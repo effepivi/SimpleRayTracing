@@ -18,6 +18,7 @@ do
 	echo "#SBATCH --error ray_tracing-%j.err   #" >> submit-omp-$thread_number.sh
 	echo "#SBATCH --nodes=1                    # Use one node" >> submit-omp-$thread_number.sh
 	echo "#SBATCH --ntasks-per-node=1          # Number of tasks per node" >> submit-omp-$thread_number.sh
+	echo "#SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU." >> submit-omp-$thread_number.sh
 
  	if [ "$thread_number" -ge "40" ]
 	then

@@ -11,6 +11,7 @@
 #SBATCH --cpus-per-task=1            # Number of cores per task
 #SBATCH --mem=600mb                  # Total memory limit
 #SBATCH --time=00:50:00              # Time limit hrs:min:sec
+#SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU.
 
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
