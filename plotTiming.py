@@ -49,12 +49,21 @@ def printRawTable(df):
                         parallelisation_string = parallelisation;
 
                         if thread_number == 1:
-                            parallelisation_string += " with 1 thread";
+                            if parallelisation == "MPI" or parallelisation == "MPI-omp":
+                                parallelisation_string += " with 1 process";
+                            else:
+                                parallelisation_string += " with 1 thread";
                         elif thread_number > 1:
-                            parallelisation_string += " with " + str(int(thread_number)) + " threads";
+                            if parallelisation == "MPI":
+                                parallelisation_string += " with " + str(int(thread_number)) + " processes";
+                            else:
+                                parallelisation_string += " with " + str(int(thread_number)) + " threads";
 
                         if nodes > 1:
-                            parallelisation_string += " on " + str(nodes) + " nodes, i.e. " + str(nodes * thread_number) + " processes in total";
+                            if parallelisation == "MPI-omp":
+                                parallelisation_string += " on " + str(nodes) + " nodes, i.e. " + str(nodes * thread_number) + " threads in total";
+                            else:
+                                parallelisation_string += " on " + str(nodes) + " nodes, i.e. " + str(nodes * thread_number) + " processes in total";
 
                         print("|", processor, "|", release_date, "|", parallelisation_string, " |", compiler, "|", i[0], "|", round(i[0] / 60), "|");
 
@@ -88,7 +97,7 @@ def displayRuntime(df):
                         for temp in runtime:
                             Y.append(round(temp / 60)); # In minutes
                             #Y.append(temp); # In seconds
-                            X.append(thread_number);
+                            X.append(thread_number * nodes);
 
                         parallelisation_string = parallelisation;
 
@@ -110,7 +119,7 @@ def displayRuntime(df):
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.05),
               ncol=1, fancybox=True, shadow=True);
 
-    plt.xticks(df["Number of threads/processes per node"].unique());
+    plt.xlabel('Total number of threads/processes');
 
     plt.xlabel('Number of threads');
     plt.ylabel('Runtime in minutes');
@@ -154,7 +163,7 @@ def displaySpeedup(df):
                         i = [];
                         for temp in runtime:
                             Y.append(reference / temp);
-                            X.append(thread_number);
+                            X.append(thread_number * nodes);
 
                         parallelisation_string = parallelisation;
 
@@ -178,12 +187,12 @@ def displaySpeedup(df):
     plt.plot([0, 160], [1, 160], color=colours[colour_id], label="Theoretical speedup");
 
 
-    ax.legend(loc='upper left',
+    ax.legend(loc='lower right',
               ncol=1, fancybox=True, shadow=True);
 
     plt.xticks(df["Number of threads/processes per node"].unique());
 
-    plt.xlabel('Number of threads/processes per node');
+    plt.xlabel('Total number of threads/processes');
     plt.ylabel('Speedup');
 
     plt.savefig('speedup.pdf');
@@ -197,8 +206,8 @@ df = pd.read_csv("timing.csv");
 df = df.sort_values(by=['Parallelisation', 'Number of nodes', 'Number of threads/processes per node'])
 
 
-#printRawTable(df);
-#displayRuntime(df);
+printRawTable(df);
+displayRuntime(df);
 displaySpeedup(df);
 
 #plt.show();
