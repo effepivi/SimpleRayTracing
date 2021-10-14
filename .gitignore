@@ -1,4 +1,25 @@
-*.old
 *.*~
 bin
 
+bin-gnu/
+bin-intel/
+
+env-gnu.sh
+env-intel.sh
+
+ray_tracing-gnu-*.*
+ray_tracing-intel-*.*
+
+gmon.out
+serial-profiling.txt
+
+runtime.csv
+
+timing-serial-gnu-*.csv
+timing-serial-intel-*.csv
+timing.csv
+
+serial-gnu-*.jpg
+serial-intel-*.jpg
+
+temp-serial*
