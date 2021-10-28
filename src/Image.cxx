@@ -132,7 +132,9 @@ void Image::loadJPEGFile(const char* aFileName)
     JSAMPROW row_pointer[1];        // pointer to a single row
     int row_stride;                 // physical row width in buffer
 
-    if (cinfo.out_color_space == JCS_RGB)
+    cinfo.out_color_space = JCS_EXT_RGB;
+
+    if (cinfo.out_color_space == JCS_RGB || cinfo.out_color_space == JCS_EXT_RGB)
     {
         row_stride = m_width * 3;   // JSAMPLEs per row in image_buffer
     }
