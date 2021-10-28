@@ -3,7 +3,7 @@
 width=2048
 height=2048
 
-for thread_number in 1 2 4 8 16 24 32 40 80 160
+for thread_number in 160 80 40 32 24 16 8 4 2 1  
 do
 	echo "#!/usr/bin/env bash" > submit-pthread-$thread_number.sh
 	echo "#" >> submit-pthread-$thread_number.sh
@@ -11,8 +11,8 @@ do
 	echo "##SBATCH --mail-user=YOUREMAILADDRESS@bangor.ac.uk  # Where to send mail" >> submit-pthread-$thread_number.sh
 	echo "#SBATCH --mail-type=END,FAIL         # Mail events (NONE, BEGIN, END, FAIL, ALL)" >> submit-pthread-$thread_number.sh
 	echo "#SBATCH --job-name=RT-$thread_number-pthreads       # Job name" >> submit-pthread-$thread_number.sh
-	echo "#SBATCH --output ray_tracing-%j.out  #" >> submit-pthread-$thread_number.sh
-	echo "#SBATCH --error ray_tracing-%j.err   #" >> submit-pthread-$thread_number.sh
+	echo "#SBATCH --output ray_tracing-$thread_number-%j.out  #" >> submit-pthread-$thread_number.sh
+	echo "#SBATCH --error ray_tracing-$thread_number-%j.err   #" >> submit-pthread-$thread_number.sh
 	echo "#SBATCH --nodes=1                    # Use one node" >> submit-pthread-$thread_number.sh
 	echo "#SBATCH --ntasks-per-node=1          # Number of tasks per node" >> submit-pthread-$thread_number.sh
         echo "#SBATCH --exclude=ccs[2103-2114]     # Make sure we always use the same CPU." >> submit-pthread-$thread_number.sh
@@ -21,6 +21,10 @@ do
 	then
 		echo "#SBATCH --cpus-per-task=40            # Number of cores per task" >> submit-pthread-$thread_number.sh
 		echo "#SBATCH --time=00:25:00              # Time limit hrs:min:sec" >> submit-pthread-$thread_number.sh
+	elif [ "$thread_number" -le "8" ]
+	then
+                echo "#SBATCH --cpus-per-task=$thread_number            # Number of cores per task" >> submit-pthread-$thread_number.sh
+                echo "#SBATCH --time=03:00:00              # Time limit hrs:min:sec" >> submit-pthread-$thread_number.sh
 	else
 		echo "#SBATCH --cpus-per-task=$thread_number            # Number of cores per task" >> submit-pthread-$thread_number.sh
 		echo "#SBATCH --time=00:50:00              # Time limit hrs:min:sec" >> submit-pthread-$thread_number.sh
@@ -44,19 +48,20 @@ do
 
 	echo "width=$width" >> submit-pthread-$thread_number.sh
 	echo "height=$height" >> submit-pthread-$thread_number.sh
+	echo "nb_pixels=`echo \$width*\$height |bc`" >> submit-pthread-$thread_number.sh
 
 	if [ ! -f timing.csv ];
 	then
-		echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
+		echo "CPU,Parallelisation,Number of threads per node,Number of nodes,Compiler,Image size,Runtime in sec,nb pixels" > timing.csv
 	fi
 
 	echo "echo Run ./main-pthreads with $thread_number threads." >> submit-pthread-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin-gnu/main-pthreads --size $width $height --jpeg pthreads-$thread_number-${width}x$height.jpg --threads $thread_number 2> temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin-gnu/main-pthreads --size \${width} \$height --jpeg pthreads-$thread_number-\${width}x\${height}.jpg --threads $thread_number 2> temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
 
 	echo "RUNTIME=\`cat temp-pthread-$thread_number\`" >> submit-pthread-$thread_number.sh
 
-        echo "echo \${CPU_MODEL[1]},Pthread,\$thread_number,1,\$COMPILER,\${width}x\$height,\$RUNTIME >> timing-pthread-$thread_number.csv" >> submit-pthread-$thread_number.sh
+        echo "echo \${CPU_MODEL[1]},Pthread,\$thread_number,1,\$COMPILER,\${width}x\$height,\$RUNTIME,$nb_pixels >> timing-pthread-$thread_number.csv" >> submit-pthread-$thread_number.sh
         echo "#rm temp-pthread-$thread_number" >> submit-pthread-$thread_number.sh
 
 	chmod +x submit-pthread-$thread_number.sh
