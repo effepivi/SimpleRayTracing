@@ -23,3 +23,11 @@ serial-gnu-*.jpg
 serial-intel-*.jpg
 
 temp-serial*
+
+ray_tracing-*-*.*
+submit-pthread-*.sh
+timing-pthread-*.csv
+temp-pthread-*
+pthreads-*-*x*.jpg
+
+.*.swp
