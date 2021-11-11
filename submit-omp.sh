@@ -34,7 +34,7 @@ do
 	echo "thread_number=$thread_number"  >> submit-omp-$thread_number.sh
 
 	# Clear the environment from any previously loaded modules
-	echo "source env-gnu.sh" >> submit-pthread-$thread_number.sh
+	echo "source env-gnu.sh" >> submit-omp-$thread_number.sh
 
 	echo "COMPILER=\"`gcc --version |head -1`\"" >> submit-omp-$thread_number.sh
 
@@ -55,7 +55,7 @@ do
 
 	echo "echo Run ./main-omp with $thread_number threads." >> submit-omp-$thread_number.sh
 
-  echo "export OMP_NUM_THREADS=$thread_number" >> submit-omp-$thread_number.sh
+        echo "export OMP_NUM_THREADS=$thread_number" >> submit-omp-$thread_number.sh
 
 	echo "/usr/bin/time --format='%e' ./bin-gnu/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-omp-$thread_number" >> submit-omp-$thread_number.sh
 
