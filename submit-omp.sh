@@ -29,15 +29,14 @@ do
 		echo "#SBATCH --time=00:50:00              # Time limit hrs:min:sec" >> submit-omp-$thread_number.sh
 	fi
 
-	echo "#SBATCH --mem=600mb                  # Total memory limit" >> submit-omp-$thread_number.sh
+	echo "#SBATCH --mem=1200mb                  # Total memory limit" >> submit-omp-$thread_number.sh
 
 	echo "thread_number=$thread_number"  >> submit-omp-$thread_number.sh
 
 	# Clear the environment from any previously loaded modules
-	echo "module purge > /dev/null 2>&1" >> submit-omp-$thread_number.sh
-	echo "module load cmake mpi/intel" >> submit-omp-$thread_number.sh
+	echo "source env-gnu.sh" >> submit-pthread-$thread_number.sh
 
-	echo "COMPILER=\"`icc --version |head -1`\"" >> submit-omp-$thread_number.sh
+	echo "COMPILER=\"`gcc --version |head -1`\"" >> submit-omp-$thread_number.sh
 
 	# Uncomment if your are using the intel compiler
 	#module load compiler/intel/2020/2 #compiler/gnu/9/2.0
@@ -58,7 +57,7 @@ do
 
   echo "export OMP_NUM_THREADS=$thread_number" >> submit-omp-$thread_number.sh
 
-	echo "/usr/bin/time --format='%e' ./bin/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-omp-$thread_number" >> submit-omp-$thread_number.sh
+	echo "/usr/bin/time --format='%e' ./bin-gnu/main-omp --size $width $height --jpeg omp-$thread_number-${width}x$height.jpg 2> temp-omp-$thread_number" >> submit-omp-$thread_number.sh
 
 	echo "RUNTIME=\`cat temp-omp-$thread_number\`" >> submit-omp-$thread_number.sh
 
