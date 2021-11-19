@@ -38,13 +38,14 @@ do
 
         # Clear the environment from any previously loaded modules
         echo "module purge > /dev/null 2>&1" >> submit-MPI-$NODES-$process_number.sh
-        echo "module load cmake mpi/intel" >> submit-MPI-$NODES-$process_number.sh
+        #echo "module load cmake mpi/intel" >> submit-MPI-$NODES-$process_number.sh
+        echo "source env-gnu.sh"           >> submit-MPI-$NODES-$process_number.sh
 
         echo "COMPILER=\"`gcc --version |head -1`\"" >> submit-MPI-$NODES-$process_number.sh
 
         # Uncomment if your are using the intel compiler
         #module load compiler/intel/2020/2 #compiler/gnu/9/2.0
-        echo "COMPILER=\"`icc --version |head -1`\"" >> submit-MPI-$NODES-$process_number.sh
+        #echo "COMPILER=\"`icc --version |head -1`\"" >> submit-MPI-$NODES-$process_number.sh
 
         echo "TEMP=\`lscpu|grep \"Model name:\"\`" >> submit-MPI-$NODES-$process_number.sh
         echo "IFS=':' read -ra CPU_MODEL <<< \"\$TEMP\"" >> submit-MPI-$NODES-$process_number.sh
