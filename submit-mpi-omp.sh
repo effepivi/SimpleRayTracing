@@ -32,19 +32,19 @@ do
 		    echo "#SBATCH --time=00:50:00              # Time limit hrs:min:sec" >> submit-MPI-OMP-$NODES-$thread_number.sh
 	    fi
 	    
-        echo "#SBATCH --mem=600mb                  # Total memory limit" >> submit-MPI-OMP-$NODES-$thread_number.sh
+        echo "#SBATCH --mem=3000mb                  # Total memory limit" >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         echo "thread_number=$thread_number"  >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         # Clear the environment from any previously loaded modules
         echo "module purge > /dev/null 2>&1" >> submit-MPI-OMP-$NODES-$thread_number.sh
-        echo "module load cmake mpi/intel" >> submit-MPI-OMP-$NODES-$thread_number.sh
+        echo "source env-gnu.sh"             >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         echo "COMPILER=\"`gcc --version |head -1`\"" >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         # Uncomment if your are using the intel compiler
         #module load compiler/intel/2020/2 #compiler/gnu/9/2.0
-        echo "COMPILER=\"`icc --version |head -1`\"" >> submit-MPI-OMP-$NODES-$thread_number.sh
+        #echo "COMPILER=\"`icc --version |head -1`\"" >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         echo "TEMP=\`lscpu|grep \"Model name:\"\`" >> submit-MPI-OMP-$NODES-$thread_number.sh
         echo "IFS=':' read -ra CPU_MODEL <<< \"\$TEMP\"" >> submit-MPI-OMP-$NODES-$thread_number.sh
@@ -57,11 +57,11 @@ do
             echo "CPU,Parallelisation,Number of threads/processes per node,Number of nodes,Compiler,Image size,Runtime in sec" > timing.csv
         fi
 
-        echo "echo Run ./main-mpi with $thread_number processes." >> submit-MPI-OMP-$NODES-$thread_number.sh
+        echo "echo Run ./main-mpi with $thread_number OpenMP threads on $NODES nodes." >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         echo "export OMP_NUM_THREADS=$thread_number" >> submit-MPI-OMP-$NODES-$thread_number.sh
 
-        echo "/usr/bin/time --format='%e' mpirun  ./bin/main-mpi-omp --size $width $height --jpeg mpi-omp-$NODES-$thread_number-${width}x$height.jpg 2> temp-mpi-$NODES-$thread_number" >> submit-MPI-OMP-$NODES-$thread_number.sh
+        echo "/usr/bin/time --format='%e' mpirun  ./bin-gnu/main-mpi-omp --size $width $height --jpeg mpi-omp-$NODES-$thread_number-${width}x$height.jpg 2> temp-mpi-$NODES-$thread_number" >> submit-MPI-OMP-$NODES-$thread_number.sh
 
         echo "RUNTIME=\`cat temp-mpi-$NODES-$thread_number\`" >> submit-MPI-OMP-$NODES-$thread_number.sh
 
