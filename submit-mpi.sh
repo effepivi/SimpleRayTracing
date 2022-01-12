@@ -27,12 +27,12 @@ do
         then
             echo "#SBATCH --ntasks-per-node=40         # Number of tasks per node" >> submit-MPI-$NODES-$process_number.sh
             echo "#SBATCH --time=00:25:00              # Time limit hrs:min:sec" >> submit-MPI-$NODES-$process_number.sh
+            echo "#SBATCH --mem=5GB                    # Total memory limit" >> submit-MPI-$NODES-$process_number.sh
         else
             echo "#SBATCH --ntasks-per-node=$process_number   # Number of tasks per node" >> submit-MPI-$NODES-$process_number.sh
             echo "#SBATCH --time=00:50:00                     # Time limit hrs:min:sec" >> submit-MPI-$NODES-$process_number.sh
+            echo "#SBATCH --mem=600mb                  # Total memory limit" >> submit-MPI-$NODES-$process_number.sh
         fi
-
-        echo "#SBATCH --mem=600mb                  # Total memory limit" >> submit-MPI-$NODES-$process_number.sh
 
         echo "process_number=$process_number"  >> submit-MPI-$NODES-$process_number.sh
 
